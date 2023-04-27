@@ -8,5 +8,28 @@
 <body>
 <h1>Welcome to...</h1>
 <img th:src="@{/images/TacoCloud.jpg}"/>
+<div>
+    <a href="/design" class="btn">Design your taco!</a>
+</div>
 </body>
 </html>
+<style>
+    .btn {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        font-size: 2.2rem;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        color: #fff;
+        background-color: #fd7e14;
+        border: none;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn:hover {
+        background-color: #ffc107;
+    }
+
+</style>
