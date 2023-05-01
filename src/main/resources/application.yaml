@@ -1,5 +1,6 @@
-#spring.thymeleaf.cache = false  | 一种更好的方法是使用Spring提供的DevTools组件，其会自动禁用模板缓存
 spring:
-  datasource:
-    generate-unique-name: false # 不使用随机生成的名字
-    name: tacocloud
+  data:
+    cassandra:
+      keyspace-name: tacocloud
+      schema-action: recreate
+      contact-points: datacenter1
