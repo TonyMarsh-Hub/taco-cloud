@@ -1,6 +1,4 @@
 spring:
   data:
-    cassandra:
-      keyspace-name: tacocloud
-      schema-action: recreate
-      contact-points: datacenter1
+      mongodb:
+        database: tacoclouddb
