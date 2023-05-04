@@ -18,11 +18,10 @@ import tacos.TacoOrder;
 import tacos.data.OrderRepository;
 import tacos.messaging.OrderMessagingService;
 
-//tag::sendOrderFromController[]
 @RestController
 @RequestMapping(path="/api/orders",
                 produces="application/json")
-@CrossOrigin(origins="*")
+@CrossOrigin(origins="http://localhost:8080")
 public class OrderApiController {
 
   private OrderRepository repo;
@@ -34,14 +33,11 @@ public class OrderApiController {
     this.repo = repo;
     this.messageService = messageService;
   }
-//end::sendOrderFromController[]
 
   @GetMapping(produces="application/json")
   public Iterable<TacoOrder> allOrders() {
     return repo.findAll();
   }
-
-//tag::sendOrderFromController[]
 
   @PostMapping(consumes="application/json")
   @ResponseStatus(HttpStatus.CREATED)
@@ -49,14 +45,6 @@ public class OrderApiController {
     messageService.sendOrder(order);
     return repo.save(order);
   }
-
-//end::sendOrderFromController[]
-
-/*
-//tag::sendOrderFromController[]
-  ...
-//end::sendOrderFromController[]
- */
 
   @PutMapping(path="/{orderId}", consumes="application/json")
   public TacoOrder putOrder(
@@ -106,7 +94,4 @@ public class OrderApiController {
     } catch (EmptyResultDataAccessException e) {}
   }
 
-//tag::sendOrderFromController[]
-
 }
-//end::sendOrderFromController[]

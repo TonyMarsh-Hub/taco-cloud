@@ -12,8 +12,8 @@ public class Alert {
 	private Level level;
 	private String orderedBy;
 	private Instant orderedAt;
-	
-	public static enum Level {
+
+	public enum Level {
 		YELLOW, ORANGE, RED, BLACK
 	}
 }

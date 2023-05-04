@@ -1,6 +1,7 @@
 package tacos.authorization;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
@@ -32,7 +33,6 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 
-// tag::auth_server_config[]
 @Configuration(proxyBeanMethods = false)
 public class AuthorizationServerConfig {
 
@@ -45,19 +45,17 @@ public class AuthorizationServerConfig {
         .formLogin(Customizer.withDefaults())
         .build();
   }
-//end::auth_server_config[]
-  
+
   // @formatter:off
-  // tag::client_repo[]
   @Bean
   public RegisteredClientRepository registeredClientRepository(
           PasswordEncoder passwordEncoder) {
-    RegisteredClient registeredClient = 
+    RegisteredClient registeredClient =
       RegisteredClient.withId(UUID.randomUUID().toString())
         .clientId("taco-admin-client")
         .clientSecret(passwordEncoder.encode("secret"))
         .clientAuthenticationMethod(
-                ClientAuthenticationMethod.BASIC)
+                ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
         .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
         .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
         .redirectUri(
@@ -70,22 +68,22 @@ public class AuthorizationServerConfig {
         .build();
     return new InMemoryRegisteredClientRepository(registeredClient);
   }
-  // end::client_repo[]
   // @formatter:on
 
   @Bean
   public ProviderSettings providerSettings() {
     return new ProviderSettings().issuer("http://authserver:9000");
   }
-  
-  // tag::jwksource_beans[]
+
   @Bean
-  public JWKSource<SecurityContext> jwkSource() {
+  public JWKSource<SecurityContext> jwkSource()
+		  throws NoSuchAlgorithmException {
     RSAKey rsaKey = generateRsa();
     JWKSet jwkSet = new JWKSet(rsaKey);
     return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
   }
-  private static RSAKey generateRsa() {
+
+  private static RSAKey generateRsa() throws NoSuchAlgorithmException {
     KeyPair keyPair = generateRsaKey();
     RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
     RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
@@ -94,30 +92,16 @@ public class AuthorizationServerConfig {
         .keyID(UUID.randomUUID().toString())
         .build();
   }
-  private static KeyPair generateRsaKey() {
-    try {
-      KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-      keyPairGenerator.initialize(2048);
-      return keyPairGenerator.generateKeyPair();
-    } catch (Exception e) {
-      return null;
-    } 
+
+  private static KeyPair generateRsaKey() throws NoSuchAlgorithmException {
+	  KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+	  keyPairGenerator.initialize(2048);
+	  return keyPairGenerator.generateKeyPair();
   }
 
   @Bean
   public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
     return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
   }
-  // end::jwksource_beans[]
-  
-  /*
-   // tag::auth_server_config[]
-    
-   ...
-   
-   // end::auth_server_config[]
-   */
 
-//tag::auth_server_config[]
 }
-//end::auth_server_config[]

@@ -21,52 +21,29 @@ import tacos.TacoOrder;
 import tacos.Taco;
 import tacos.data.IngredientRepository;
 
-//tag::addIngredientsToModel[]
-//tag::processTaco[]
 @Controller
 @RequestMapping("/design")
 @SessionAttributes("tacoOrder")
 public class DesignTacoController {
 
-  //end::addIngredientsToModel[]
-  //end::processTaco[]
-
-//tag::addIngredientsToModel[]
   private final IngredientRepository ingredientRepo;
 
-//end::addIngredientsToModel[]
-
-//tag::addIngredientsToModel[]
   @Autowired
   public DesignTacoController(
         IngredientRepository ingredientRepo) {
     this.ingredientRepo = ingredientRepo;
   }
 
-//end::addIngredientsToModel[]
-  /*
-  //tag::processTaco[]
-  // ...
-
-  //end::processTaco[]
-   */
-
-
-//tag::addIngredientsToModel[]
   @ModelAttribute
   public void addIngredientsToModel(Model model) {
     Iterable<Ingredient> ingredients = ingredientRepo.findAll();
-    Type[] types = Ingredient.Type.values();
+    Type[] types = Type.values();
     for (Type type : types) {
       model.addAttribute(type.toString().toLowerCase(),
           filterByType(ingredients, type));
     }
   }
 
-//end::addIngredientsToModel[]
-
-
-  //tag::processTaco[]
   @ModelAttribute(name = "tacoOrder")
   public TacoOrder order() {
     return new TacoOrder();
@@ -77,18 +54,15 @@ public class DesignTacoController {
     return new Taco();
   }
 
-  //end::processTaco[]
-
   @GetMapping
-  public String showDesignForm(Model model) {
+  public String showDesignForm() {
     return "design";
   }
 
-  //tag::processTaco[]
   @PostMapping
   public String processTaco(
       @Valid Taco taco, Errors errors,
-      @ModelAttribute TacoOrder tacoOrder, Model model) {
+      @ModelAttribute TacoOrder tacoOrder) {
 
     if (errors.hasErrors()) {
       return "design";
@@ -98,8 +72,6 @@ public class DesignTacoController {
 
     return "redirect:/orders/current";
   }
-  //end::processTaco[]
-
 
   private Iterable<Ingredient> filterByType(
       Iterable<Ingredient> ingredients, Type type) {
@@ -108,17 +80,4 @@ public class DesignTacoController {
               .collect(Collectors.toList());
   }
 
-  /*
-// tag::addIngredientsToModel[]
-// tag::processTaco[]
-
-  // ...
-// end::addIngredientsToModel[]
-// end::processTaco[]
-   */
-
-//tag::addIngredientsToModel[]
-//tag::processTaco[]
 }
-//end::addIngredientsToModel[]
-//end::processTaco[]

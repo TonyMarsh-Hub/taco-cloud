@@ -33,12 +33,10 @@ public class TacoCloudClient {
   /*
    * Specify parameter as varargs argument
    */
-  //tag::getIngredientById[]
   public Ingredient getIngredientById(String ingredientId) {
     return rest.getForObject("http://localhost:8080/ingredients/{id}",
                              Ingredient.class, ingredientId);
   }
-  //end::getIngredientById[]
 
   /*
    * Alternate implementations...
@@ -52,21 +50,18 @@ public class TacoCloudClient {
    * Specify parameters with a map
    */
   /*
-  //tag::getIngredientById2[]
   public Ingredient getIngredientById(String ingredientId) {
     Map<String, String> urlVariables = new HashMap<>();
     urlVariables.put("id", ingredientId);
     return rest.getForObject("http://localhost:8080/ingredients/{id}",
         Ingredient.class, urlVariables);
   }
-  //end::getIngredientById2[]
   */
 
   /*
    * Request with URI instead of String
    */
   /*
-  //tag::getIngredientById3[]
   public Ingredient getIngredientById(String ingredientId) {
     Map<String, String> urlVariables = new HashMap<>();
     urlVariables.put("id", ingredientId);
@@ -75,23 +70,20 @@ public class TacoCloudClient {
               .build(urlVariables);
     return rest.getForObject(url, Ingredient.class);
   }
-  //end::getIngredientById3[]
   */
 
   /*
    * Use getForEntity() instead of getForObject()
    */
   /*
-  //tag::getIngredientById4[]
   public Ingredient getIngredientById(String ingredientId) {
     ResponseEntity<Ingredient> responseEntity =
         rest.getForEntity("http://localhost:8080/ingredients/{id}",
             Ingredient.class, ingredientId);
-    log.info("Fetched time: " +
+    log.info("Fetched time: {}",
             responseEntity.getHeaders().getDate());
     return responseEntity.getBody();
   }
-  //end::getIngredientById4[]
   */
 
   public List<Ingredient> getAllIngredients() {
@@ -104,22 +96,18 @@ public class TacoCloudClient {
   // PUT examples
   //
 
-  //tag::updateIngredient[]
   public void updateIngredient(Ingredient ingredient) {
     rest.put("http://localhost:8080/ingredients/{id}",
           ingredient, ingredient.getId());
   }
-  //end::updateIngredient[]
 
   //
   // POST examples
   //
-  //tag::createIngredient[]
   public Ingredient createIngredient(Ingredient ingredient) {
     return rest.postForObject("http://localhost:8080/ingredients",
         ingredient, Ingredient.class);
   }
-  //end::createIngredient[]
 
   /*
    * Alternate implementations...
@@ -129,45 +117,38 @@ public class TacoCloudClient {
    * the variant you want to use.
    */
   /*
-  //tag::createIngredient2[]
   public java.net.URI createIngredient(Ingredient ingredient) {
     return rest.postForLocation("http://localhost:8080/ingredients",
         ingredient);
   }
-  //end::createIngredient2[]
   */
 
   /*
-  //tag::createIngredient3[]
   public Ingredient createIngredient(Ingredient ingredient) {
     ResponseEntity<Ingredient> responseEntity =
            rest.postForEntity("http://localhost:8080/ingredients",
                               ingredient,
                               Ingredient.class);
-    log.info("New resource created at " +
+    log.info("New resource created at {}",
              responseEntity.getHeaders().getLocation());
     return responseEntity.getBody();
   }
-  //end::createIngredient3[]
   */
 
   //
   // DELETE examples
   //
 
-  //tag::deleteIngredient[]
   public void deleteIngredient(Ingredient ingredient) {
     rest.delete("http://localhost:8080/ingredients/{id}",
         ingredient.getId());
   }
-  //end::deleteIngredient[]
 
   //
   // Traverson with RestTemplate examples
   //
 
   public Iterable<Ingredient> getAllIngredientsWithTraverson() {
-    //tag::getWithTraverson[]
     ParameterizedTypeReference<CollectionModel<Ingredient>> ingredientType =
         new ParameterizedTypeReference<CollectionModel<Ingredient>>() {};
 
@@ -177,11 +158,9 @@ public class TacoCloudClient {
           .toObject(ingredientType);
 
     Collection<Ingredient> ingredients = ingredientRes.getContent();
-    //end::getWithTraverson[]
     return ingredients;
   }
 
-  //tag::addIngredient[]
   public Ingredient addIngredient(Ingredient ingredient) {
     String ingredientsUrl = traverson
         .follow("ingredients")
@@ -192,10 +171,8 @@ public class TacoCloudClient {
                               ingredient,
                               Ingredient.class);
   }
-  //end::addIngredient[]
 
   public Iterable<Taco> getRecentTacosWithTraverson() {
-    //tag::getWithTraverson2[]
     ParameterizedTypeReference<CollectionModel<Taco>> tacoType =
         new ParameterizedTypeReference<CollectionModel<Taco>>() {};
 
@@ -206,15 +183,12 @@ public class TacoCloudClient {
           .toObject(tacoType);
 
     Collection<Taco> tacos = tacoRes.getContent();
-    //end::getWithTraverson2[]
     // Alternatively, list the two paths in the same call to follow()
     /*
-    //tag::getWithTraverson3[]
     CollectionModel<Taco> tacoRes =
        traverson
          .follow("tacos", "recents")
          .toObject(tacoType);
-    //end::getWithTraverson3[]
     */
     return tacos;
   }

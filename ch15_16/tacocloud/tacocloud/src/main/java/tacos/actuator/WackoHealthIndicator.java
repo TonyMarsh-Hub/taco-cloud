@@ -1,4 +1,3 @@
-// tag::allButComponent[]
 package tacos.actuator;
 
 import java.util.Calendar;
@@ -7,14 +6,10 @@ import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.stereotype.Component;
 
 
-//end::allButComponent[]
 /*
  * Commented out to avoid crazy behavior when checking health.
-// tag::allButComponent[]
 @Component
-// end::allButComponent[]
 */
-//tag::allButComponent[]
 public class WackoHealthIndicator
        implements HealthIndicator {
   @Override
@@ -29,7 +24,7 @@ public class WackoHealthIndicator
           .build();
     }
 
-    if (Math.random() < 0.1) {
+    if (Math.random() <= 0.1) {
       return Health
           .down()
           .withDetail("reason", "I break 10% of the time")
@@ -41,4 +36,3 @@ public class WackoHealthIndicator
         .build();
   }
 }
-//end::allButComponent[]

@@ -25,7 +25,6 @@ import tacos.RestIngredientService;
 @Configuration
 public class SecurityConfig {
 
-  // tag::securityFilterChain[]
   @Bean
   SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
     http
@@ -33,31 +32,29 @@ public class SecurityConfig {
           authorizeRequests -> authorizeRequests.anyRequest().authenticated()
       )
       .oauth2Login(
-        oauth2Login -> 
+        oauth2Login ->
         oauth2Login.loginPage("/oauth2/authorization/taco-admin-client"))
       .oauth2Client(withDefaults());
     return http.build();
   }
-  // end::securityFilterChain[]
 
-  // tag::ingredientServiceBean[]
   @Bean
   @RequestScope
   public IngredientService ingredientService(
                 OAuth2AuthorizedClientService clientService) {
-    Authentication authentication = 
+    Authentication authentication =
             SecurityContextHolder.getContext().getAuthentication();
-    
+
     String accessToken = null;
-    
+
     if (authentication.getClass()
               .isAssignableFrom(OAuth2AuthenticationToken.class)) {
-      OAuth2AuthenticationToken oauthToken = 
+      OAuth2AuthenticationToken oauthToken =
               (OAuth2AuthenticationToken) authentication;
-      String clientRegistrationId = 
+      String clientRegistrationId =
               oauthToken.getAuthorizedClientRegistrationId();
       if (clientRegistrationId.equals("taco-admin-client")) {
-        OAuth2AuthorizedClient client = 
+        OAuth2AuthorizedClient client =
             clientService.loadAuthorizedClient(
                 clientRegistrationId, oauthToken.getName());
         accessToken = client.getAccessToken().getTokenValue();
@@ -65,6 +62,5 @@ public class SecurityConfig {
     }
     return new RestIngredientService(accessToken);
   }
-  // end::ingredientServiceBean[]
 
 }

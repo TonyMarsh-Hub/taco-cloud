@@ -78,7 +78,6 @@ public class TacoControllerTest {
         .isEqualTo(savedTaco);
   }
 
-  // tag::testTaco[]
   private Taco testTaco(Long number) {
     Taco taco = new Taco();
     taco.setId(number != null ? number.toString(): "TESTID");
@@ -91,5 +90,4 @@ public class TacoControllerTest {
     taco.setIngredients(ingredients);
     return taco;
   }
-  // end::testTaco[]
 }

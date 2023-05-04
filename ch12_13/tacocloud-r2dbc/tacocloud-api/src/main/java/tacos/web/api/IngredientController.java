@@ -23,7 +23,7 @@ import tacos.data.IngredientRepository;
 
 @RestController
 @RequestMapping(path="/api/ingredients", produces="application/json")
-@CrossOrigin(origins="*")
+@CrossOrigin(origins="http://localhost:8080")
 public class IngredientController {
 
   private IngredientRepository repo;
@@ -37,12 +37,12 @@ public class IngredientController {
   public Flux<Ingredient> allIngredients() {
     return repo.findAll();
   }
-  
+
   @GetMapping("/{id}")
   public Mono<Ingredient> byId(@PathVariable String id) {
     return repo.findBySlug(id);
   }
-  
+
   @PutMapping("/{id}")
   public void updateIngredient(@PathVariable String id, @RequestBody Ingredient ingredient) {
     if (!ingredient.getId().equals(id)) {
@@ -50,7 +50,7 @@ public class IngredientController {
     }
     repo.save(ingredient);
   }
-  
+
   @PostMapping
   public Mono<ResponseEntity<Ingredient>> postIngredient(@RequestBody Mono<Ingredient> ingredient) {
     return ingredient
@@ -58,15 +58,15 @@ public class IngredientController {
         .map(i -> {
           HttpHeaders headers = new HttpHeaders();
           headers.setLocation(URI.create("http://localhost:8080/ingredients/" + i.getId()));
-          return new ResponseEntity<Ingredient>(i, headers, HttpStatus.CREATED);          
+          return new ResponseEntity<Ingredient>(i, headers, HttpStatus.CREATED);
         });
   }
-  
+
   @DeleteMapping("/{id}")
   public void deleteIngredient(@PathVariable String id) {
     repo.findBySlug(id)
         .doOnNext(repo::delete)
         .subscribe();
   }
-  
+
 }

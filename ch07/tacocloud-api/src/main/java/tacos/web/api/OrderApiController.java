@@ -20,7 +20,7 @@ import tacos.data.OrderRepository;
 @RestController
 @RequestMapping(path="/api/orders",
                 produces="application/json")
-@CrossOrigin(origins="*")
+@CrossOrigin(origins="http://tacocloud:8080")
 public class OrderApiController {
 
   private OrderRepository repo;
@@ -40,7 +40,6 @@ public class OrderApiController {
     return repo.save(order);
   }
 
-  //tag::putOrder[]
   @PutMapping(path="/{orderId}", consumes="application/json")
   public TacoOrder putOrder(
                         @PathVariable("orderId") Long orderId,
@@ -48,9 +47,7 @@ public class OrderApiController {
     order.setId(orderId);
     return repo.save(order);
   }
-  //end::putOrder[]
 
-  //tag::patchOrder[]
   @PatchMapping(path="/{orderId}", consumes="application/json")
   public TacoOrder patchOrder(@PathVariable("orderId") Long orderId,
                           @RequestBody TacoOrder patch) {
@@ -69,7 +66,7 @@ public class OrderApiController {
       order.setDeliveryState(patch.getDeliveryState());
     }
     if (patch.getDeliveryZip() != null) {
-      order.setDeliveryZip(patch.getDeliveryState());
+      order.setDeliveryZip(patch.getDeliveryZip());
     }
     if (patch.getCcNumber() != null) {
       order.setCcNumber(patch.getCcNumber());
@@ -82,9 +79,7 @@ public class OrderApiController {
     }
     return repo.save(order);
   }
-  //end::patchOrder[]
 
-  //tag::deleteOrder[]
   @DeleteMapping("/{orderId}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteOrder(@PathVariable("orderId") Long orderId) {
@@ -92,6 +87,5 @@ public class OrderApiController {
       repo.deleteById(orderId);
     } catch (EmptyResultDataAccessException e) {}
   }
-  //end::deleteOrder[]
 
 }

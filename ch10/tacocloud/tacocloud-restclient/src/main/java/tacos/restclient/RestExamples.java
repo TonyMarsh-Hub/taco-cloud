@@ -23,12 +23,10 @@ public class RestExamples {
     SpringApplication.run(RestExamples.class, args);
   }
 
-  //tag::restTemplateBean[]
   @Bean
   public RestTemplate restTemplate() {
     return new RestTemplate();
   }
-  //end::restTemplateBean[]
 
   @Bean
   public CommandLineRunner fetchIngredients(TacoCloudClient tacoCloudClient) {

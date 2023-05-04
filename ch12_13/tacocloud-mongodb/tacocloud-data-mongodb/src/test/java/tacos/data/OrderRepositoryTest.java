@@ -1,4 +1,3 @@
-//tag::allButOrderDetails[]
 package tacos.data;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -45,12 +44,6 @@ public class OrderRepositoryTest {
 
   private TacoOrder createOrder() {
     TacoOrder order = new TacoOrder();
-  //end::allButOrderDetails[]
-    /*
-//tag::allButOrderDetails[]
-      ...
-//end::allButOrderDetails[]
-     */
     order.setDeliveryName("Test Customer");
     order.setDeliveryStreet("1234 North Street");
     order.setDeliveryCity("Notrees");
@@ -73,9 +66,7 @@ public class OrderRepositoryTest {
     taco2.addIngredient(new Ingredient("JACK", "Monterrey Jack", Type.CHEESE));
     taco2.setName("Test Taco Two");
     order.addTaco(taco2);
-  //tag::allButOrderDetails[]
     return order;
   }
 
 }
-//end::allButOrderDetails[]

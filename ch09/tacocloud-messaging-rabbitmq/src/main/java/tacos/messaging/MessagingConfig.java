@@ -7,11 +7,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MessagingConfig {
 
-  // tag::rabbitMessageConverterBean[]
   @Bean
   public Jackson2JsonMessageConverter messageConverter() {
     return new Jackson2JsonMessageConverter();
   }
-  // end::rabbitMessageConverterBean[]
 
 }

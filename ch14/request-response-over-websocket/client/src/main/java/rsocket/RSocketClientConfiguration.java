@@ -1,4 +1,3 @@
-//tag::allButDestinationVariable[]
 package rsocket;
 import java.net.URI;
 
@@ -15,7 +14,6 @@ public class RSocketClientConfiguration {
 	@Bean
 	public ApplicationRunner sender(RSocketRequester.Builder requesterBuilder) {
 		return args -> {
-			//tag::sendGreeting[]
 			RSocketRequester requester = requesterBuilder.websocket(
 					URI.create("ws://localhost:8080/rsocket"));
 
@@ -23,21 +21,15 @@ public class RSocketClientConfiguration {
 				.route("greeting")
 				.data("Hello RSocket!")
 				.retrieveMono(String.class)
-				.subscribe(response -> log.info("Got a response: " + response));
-			//end::sendGreeting[]
-			
-			//end::allButDestinationVariable[]
-			//tag::destinationVariable[]
+				.subscribe(response -> log.info("Got a response: {}", response));
+
 			String who = "Craig";
 			requester
 				.route("greeting/{name}", who)
 				.data("Hello RSocket!")
 				.retrieveMono(String.class)
-				.subscribe(response -> log.info("Got a response: " + response));
-			//end::destinationVariable[]
-			//tag::allButDestinationVariable[]
+				.subscribe(response -> log.info("Got a response: {}", response));
 		};
 	}
-	
+
 }
-//end::allButDestinationVariable[]

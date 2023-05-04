@@ -1,8 +1,5 @@
-//tag::allButDestinationVariable[]
 package rsocket;
-//end::allButDestinationVariable[]
 import org.springframework.messaging.handler.annotation.DestinationVariable;
-//tag::allButDestinationVariable[]
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 
@@ -16,24 +13,19 @@ public class GreetingController {
 	@MessageMapping("greeting")
 	public Mono<String> handleGreeting(Mono<String> greetingMono) {
 		return greetingMono
-			.doOnNext(greeting -> 
-				log.info("Received a greeting: " + greeting))
+			.doOnNext(greeting ->
+				log.info("Received a greeting: {}", greeting))
 			.map(greeting -> "Hello back to you!");
 	}
-	
-	// end::allButDestinationVariable[]
-	// tag::destinationVariable[]
+
 	@MessageMapping("greeting/{name}")
 	public Mono<String> handleGreeting(
-			@DestinationVariable("name") String name, 
+			@DestinationVariable("name") String name,
 			Mono<String> greetingMono) {
-		
+
 		return greetingMono
-			.doOnNext(greeting -> 
-				log.info("Received a greeting from " + name + " : " + greeting))
+			.doOnNext(greeting ->
+				log.info("Received a greeting from {} : {}", name, greeting))
 			.map(greeting -> "Hello to you, too, " + name);
 	}
-	// end::destinationVariable[]
-	// tag::allButDestinationVariable[]
 }
-//end::allButDestinationVariable[]

@@ -15,7 +15,6 @@ public class RSocketClientConfiguration {
 	@Bean
 	public ApplicationRunner sender(RSocketRequester.Builder requesterBuilder) {
 		return args -> {
-			//tag::fireAlert[]
 			RSocketRequester tcp = requesterBuilder.tcp("localhost", 7000);
 			tcp
 				.route("alert")
@@ -24,8 +23,7 @@ public class RSocketClientConfiguration {
 				.send()
 				.subscribe();
 			log.info("Alert sent");
-			//end::fireAlert[]
 		};
 	}
-	
+
 }

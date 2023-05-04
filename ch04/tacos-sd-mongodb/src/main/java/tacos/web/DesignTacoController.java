@@ -40,7 +40,7 @@ public class DesignTacoController {
     List<Ingredient> ingredients = new ArrayList<>();
     ingredientRepo.findAll().forEach(i -> ingredients.add(i));
 
-    Type[] types = Ingredient.Type.values();
+    Type[] types = Type.values();
     for (Type type : types) {
       model.addAttribute(type.toString().toLowerCase(),
           filterByType(ingredients, type));
@@ -58,14 +58,14 @@ public class DesignTacoController {
   }
 
   @GetMapping
-  public String showDesignForm(Model model) {
+  public String showDesignForm() {
     return "design";
   }
 
   @PostMapping
   public String processTaco(
       @Valid Taco taco, Errors errors,
-      @ModelAttribute TacoOrder tacoOrder, Model model) {
+      @ModelAttribute TacoOrder tacoOrder) {
 
     if (errors.hasErrors()) {
       return "design";

@@ -13,7 +13,7 @@ public class GratuityController {
 	@MessageMapping("gratuity")
 	public Flux<GratuityOut> calculate(Flux<GratuityIn> gratuityInFlux) {
 		return gratuityInFlux
-			.doOnNext(in -> log.info("Calculating gratuity:  " + in))
+			.doOnNext(in -> log.info("Calculating gratuity:  {}", in))
 			.map(in -> {
 				double percentAsDecimal = in.getPercent() / 100.0;
 				BigDecimal gratuity = in.getBillTotal()

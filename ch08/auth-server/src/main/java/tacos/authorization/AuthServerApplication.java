@@ -15,8 +15,7 @@ public class AuthServerApplication {
   public static void main(String[] args) {
     SpringApplication.run(AuthServerApplication.class, args);
   }
-  
-  //tag::dataLoaderBean[]
+
   @Bean
   public ApplicationRunner dataLoader(
           UserRepository repo, PasswordEncoder encoder) {
@@ -27,6 +26,5 @@ public class AuthServerApplication {
           new User("tacochef", encoder.encode("password"), "ROLE_ADMIN"));
     };
   }
-  //end::dataLoaderBean[]
 
 }

@@ -13,15 +13,14 @@ import tacos.TacoOrder;
 @Service
 public class RabbitOrderMessagingService
        implements OrderMessagingService {
-  
+
   private RabbitTemplate rabbit;
-  
+
   @Autowired
   public RabbitOrderMessagingService(RabbitTemplate rabbit) {
     this.rabbit = rabbit;
   }
-  
-  // tag::rabbitSendOrder[]
+
   public void sendOrder(TacoOrder order) {
     rabbit.convertAndSend("tacocloud.order.queue", order,
         new MessagePostProcessor() {
@@ -31,9 +30,8 @@ public class RabbitOrderMessagingService
             MessageProperties props = message.getMessageProperties();
             props.setHeader("X_ORDER_SOURCE", "WEB");
             return message;
-          } 
+          }
         });
   }
-  // end::rabbitSendOrder[]
   
 }

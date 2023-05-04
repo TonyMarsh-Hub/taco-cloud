@@ -1,4 +1,3 @@
-//tag::saveTacoOrder[]
 package tacos.data;
 
 import java.sql.Types;
@@ -8,9 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.asm.Type;
-//end::saveTacoOrder[]
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
-//tag::saveTacoOrder[]
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
@@ -74,9 +71,7 @@ public class JdbcOrderRepository implements OrderRepository {
 
     return order;
   }
-  //end::saveTacoOrder[]
 
-  //tag::saveTaco[]
   private long saveTaco(Long orderId, int orderKey, Taco taco) {
     taco.setCreatedAt(new Date());
     PreparedStatementCreatorFactory pscf =
@@ -105,9 +100,7 @@ public class JdbcOrderRepository implements OrderRepository {
 
     return tacoId;
   }
-  //end::saveTaco[]
 
-  //tag::saveIngredientRefs[]
   private void saveIngredientRefs(
       long tacoId, List<IngredientRef> ingredientRefs) {
     int key = 0;
@@ -118,8 +111,6 @@ public class JdbcOrderRepository implements OrderRepository {
           ingredientRef.getIngredient(), tacoId, key++);
     }
   }
-  //end::saveIngredientRefs[]
-
 
   @Override
   public Optional<TacoOrder> findById(Long id) {
@@ -173,6 +164,5 @@ public class JdbcOrderRepository implements OrderRepository {
         },
         tacoId);
   }
-//tag::saveTacoOrder[]
+
 }
-//end::saveTacoOrder[]

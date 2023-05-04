@@ -1,4 +1,3 @@
-// tag::TacoControllerWebTest_shouldReturnRecentTacos[]
 package tacos.web.api;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -52,10 +51,8 @@ public class TacoControllerTest {
         .jsonPath("$[12]").doesNotExist();
   }
 
-// end::TacoControllerWebTest_shouldReturnRecentTacos[]
-// tag::TacoControllerTest_shouldSaveATaco[]
   @SuppressWarnings("unchecked")
-@Test
+  @Test
   public void shouldSaveATaco() {
     TacoRepository tacoRepo = Mockito.mock(
                 TacoRepository.class);                         // <1>
@@ -79,9 +76,7 @@ public class TacoControllerTest {
         .expectBody(Taco.class)
         .isEqualTo(savedTaco);
   }
-// end::TacoControllerTest_shouldSaveATaco[]
 
-  // tag::testTaco[]
   private Taco testTaco(Long number) {
     Taco taco = new Taco();
     taco.setId(number != null ? number.toString(): "TESTID");
@@ -94,14 +89,5 @@ public class TacoControllerTest {
     taco.setIngredients(ingredients);
     return taco;
   }
-  // end::testTaco[]
-
-/*
-// tag::TacoControllerWebTest_shouldReturnRecentTacos[]
-  ...
-// end::TacoControllerWebTest_shouldReturnRecentTacos[]
- */
- // tag::TacoControllerWebTest_shouldReturnRecentTacos[]
 
 }
-// end::TacoControllerWebTest_shouldReturnRecentTacos[]

@@ -25,13 +25,11 @@ public class RestExamples {
     SpringApplication.run(RestExamples.class, args);
   }
 
-  //tag::restTemplateBean[]
   @Bean
   public RestTemplate restTemplate() {
     return new RestTemplate();
   }
-  //end::restTemplateBean[]
-  
+
   @Bean
   public CommandLineRunner fetchIngredients(TacoCloudClient tacoCloudClient) {
     return args -> {
@@ -46,7 +44,7 @@ public class RestExamples {
       }
     };
   }
-  
+
   @Bean
   public CommandLineRunner putAnIngredient(TacoCloudClient tacoCloudClient) {
     return args -> {
@@ -58,7 +56,7 @@ public class RestExamples {
       log.info("AFTER:  " + after);
     };
   }
-  
+
   @Bean
   public CommandLineRunner addAnIngredient(TacoCloudClient tacoCloudClient) {
     return args -> {
@@ -68,14 +66,14 @@ public class RestExamples {
       log.info("AFTER=1:  " + chixAfter);
 //      Ingredient beefFajita = new Ingredient("BFFJ", "Beef Fajita", Ingredient.Type.PROTEIN);
 //      URI uri = tacoCloudClient.createIngredient(beefFajita);
-//      log.info("AFTER-2:  " + uri);      
+//      log.info("AFTER-2:  " + uri);
 //      Ingredient shrimp = new Ingredient("SHMP", "Shrimp", Ingredient.Type.PROTEIN);
 //      Ingredient shrimpAfter = tacoCloudClient.createIngredient(shrimp);
-//      log.info("AFTER-3:  " + shrimpAfter);      
+//      log.info("AFTER-3:  " + shrimpAfter);
     };
   }
 
-  
+
   @Bean
   public CommandLineRunner deleteAnIngredient(TacoCloudClient tacoCloudClient) {
     return args -> {
@@ -86,7 +84,7 @@ public class RestExamples {
       Ingredient shrimp = new Ingredient("SHMP", "Shrimp", Ingredient.Type.PROTEIN);
       tacoCloudClient.createIngredient(shrimp);
 
-      
+
       Ingredient before = tacoCloudClient.getIngredientById("CHIX");
       log.info("BEFORE:  " + before);
       tacoCloudClient.deleteIngredient(before);
@@ -104,20 +102,18 @@ public class RestExamples {
       log.info("AFTER:  " + after);
     };
   }
-  
+
   //
   // Traverson examples
   //
-  
+
   @Bean
   public Traverson traverson() {
-    //tag::traverson[]
     Traverson traverson = new Traverson(
         URI.create("http://localhost:8080/api"), MediaTypes.HAL_JSON);
-    //end::traverson[]
     return traverson;
   }
-  
+
   @Bean
   public CommandLineRunner traversonGetIngredients(TacoCloudClient tacoCloudClient) {
     return args -> {
@@ -128,7 +124,7 @@ public class RestExamples {
       }
     };
   }
-  
+
   @Bean
   public CommandLineRunner traversonSaveIngredient(TacoCloudClient tacoCloudClient) {
     return args -> {
@@ -142,7 +138,7 @@ public class RestExamples {
       tacoCloudClient.deleteIngredient(pico);
     };
   }
-  
+
   @Bean
   public CommandLineRunner traversonRecentTacos(TacoCloudClient tacoCloudClient) {
     return args -> {

@@ -19,15 +19,15 @@ import tacos.data.OrderRepository;
 @RequestMapping("/orders")
 @SessionAttributes("order")
 public class OrderController {
-  
+
   private OrderRepository orderRepo;
 
   public OrderController(OrderRepository orderRepo) {
     this.orderRepo = orderRepo;
   }
-  
+
   @GetMapping("/current")
-  public String orderForm(@AuthenticationPrincipal User user, 
+  public String orderForm(@AuthenticationPrincipal User user,
       @ModelAttribute TacoOrder order) {
     if (order.getDeliveryName() == null) {
       order.setDeliveryName(user.getFullname());
@@ -44,27 +44,25 @@ public class OrderController {
     if (order.getDeliveryZip() == null) {
       order.setDeliveryZip(user.getZip());
     }
-    
+
     return "orderForm";
   }
 
-  // tag::processOrderWithAuthenticationPrincipal[]
   @PostMapping
-  public String processOrder(@Valid TacoOrder order, Errors errors, 
-      SessionStatus sessionStatus, 
+  public String processOrder(@Valid TacoOrder order, Errors errors,
+      SessionStatus sessionStatus,
       @AuthenticationPrincipal User user) {
-    
+
     if (errors.hasErrors()) {
       return "orderForm";
     }
-    
+
     order.setUser(user);
-    
+
     orderRepo.save(order);
     sessionStatus.setComplete();
-    
+
     return "redirect:/";
   }
-  // end::processOrderWithAuthenticationPrincipal[]
 
 }

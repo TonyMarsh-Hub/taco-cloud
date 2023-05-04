@@ -11,11 +11,12 @@ public class AlertController {
 	@MessageMapping("alert")
 	public Mono<Void> setAlert(Mono<Alert> alertMono) {
 		return alertMono
-			.doOnNext(alert -> {
-				log.info(alert.getLevel() + " alert"
-						+ " ordered by " + alert.getOrderedBy()
-						+ " at " + alert.getOrderedAt());
-			})
+			.doOnNext(alert ->
+				log.info("{} alert ordered by {} at {}",
+						alert.getLevel(),
+						alert.getOrderedBy(),
+						alert.getOrderedAt())
+			)
 			.thenEmpty(Mono.empty());
 	}
 	

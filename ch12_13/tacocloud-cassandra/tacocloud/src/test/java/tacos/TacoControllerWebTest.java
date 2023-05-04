@@ -1,4 +1,3 @@
-// tag::TacoControllerWebTest_start[]
 package tacos;
 
 import java.io.IOException;
@@ -18,9 +17,6 @@ public class TacoControllerWebTest {
   @Autowired
   private WebTestClient testClient;
 
-//end::TacoControllerWebTest_start[]
-  
-//tag::TacoControllerWebTest_shouldReturnRecentTacos[]
   @Test
   public void shouldReturnRecentTacos() throws IOException {
     testClient.get().uri("/api/tacos?recent")
@@ -33,8 +29,5 @@ public class TacoControllerWebTest {
           .jsonPath("$[?(@.name == 'Bovine Bounty')]").exists()
           .jsonPath("$[?(@.name == 'Veg-Out')]").exists();
   }
-//end::TacoControllerWebTest_shouldReturnRecentTacos[]
-  
-//tag::TacoControllerWebTest_start[]
+
 }
-//end::TacoControllerWebTest_start[]

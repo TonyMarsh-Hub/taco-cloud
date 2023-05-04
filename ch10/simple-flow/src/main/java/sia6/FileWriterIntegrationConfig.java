@@ -1,43 +1,22 @@
-//tag::fileWriterFlow[]
-//tag::fileWriterJavaConfig[]
 package sia6;
 
 import java.io.File;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-//end::fileWriterJavaConfig[]
-//end::fileWriterFlow[]
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.Profile;
-//tag::fileWriterJavaConfig[]
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.annotation.Transformer;
-//tag::fileWriterFlow[]
-//end::fileWriterJavaConfig[]
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.MessageChannels;
-//end::fileWriterFlow[]
-//tag::fileWriterJavaConfig[]
 import org.springframework.integration.file.FileWritingMessageHandler;
-//end::fileWriterJavaConfig[]
-//tag::fileWriterFlow[]
 import org.springframework.integration.file.dsl.Files;
-//tag::fileWriterJavaConfig[]
 import org.springframework.integration.file.support.FileExistsMode;
-//end::fileWriterFlow[]
 import org.springframework.integration.transformer.GenericTransformer;
-//end::fileWriterJavaConfig[]
-//tag::fileWriterFlow[]
-
-//tag::fileWriterJavaConfig[]
 
 @Configuration
 public class FileWriterIntegrationConfig {
-
-//end::fileWriterJavaConfig[]
-
-  //end::fileWriterFlow[]
 
   @Profile("xmlconfig")
   @Configuration
@@ -45,7 +24,6 @@ public class FileWriterIntegrationConfig {
   public static class XmlConfiguration {}
 
   @Profile("javaconfig")
-  //tag::fileWriterJavaConfig[]
   @Bean
   @Transformer(inputChannel="textInChannel",                  <!--1-->
                outputChannel="fileWriterChannel")
@@ -53,9 +31,7 @@ public class FileWriterIntegrationConfig {
     return text -> text.toUpperCase();
   }
 
-  //end::fileWriterJavaConfig[]
   @Profile("javaconfig")
-  //tag::fileWriterJavaConfig[]
   @Bean
   @ServiceActivator(inputChannel="fileWriterChannel")
   public FileWritingMessageHandler fileWriter() {             <!--2-->
@@ -67,13 +43,10 @@ public class FileWriterIntegrationConfig {
     return handler;
   }
 
-  //end::fileWriterJavaConfig[]
-
   //
   // DSL Configuration
   //
   @Profile("javadsl")
-//tag::fileWriterFlow[]
   @Bean
   public IntegrationFlow fileWriterFlow() {
     return IntegrationFlows
@@ -86,10 +59,7 @@ public class FileWriterIntegrationConfig {
         .get();
   }
 
-//end::fileWriterFlow[]
-
   /*
-//tag::fileWriterFlow_withChannel[]
   @Bean
   public IntegrationFlow fileWriterFlow() {
     return IntegrationFlows
@@ -102,11 +72,6 @@ public class FileWriterIntegrationConfig {
             .appendNewLine(true))
         .get();
   }
-  //end::fileWriterFlow_withChannel[]
    */
 
-//tag::fileWriterFlow[]
-//tag::fileWriterJavaConfig[]
 }
-//end::fileWriterJavaConfig[]
-//end::fileWriterFlow[]

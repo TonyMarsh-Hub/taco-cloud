@@ -1,4 +1,3 @@
-//tag::saveTacoOrder[]
 package tacos.web.api;
 
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ public class TacoOrderAggregateService {
 
   private final TacoRepository tacoRepo;
   private final OrderRepository orderRepo;
-  
+
   public Mono<TacoOrder> save(TacoOrder tacoOrder) {
     return Mono.just(tacoOrder)
       .flatMap(order -> {
@@ -33,9 +32,7 @@ public class TacoOrderAggregateService {
       })
       .flatMap(orderRepo::save);
   }
-  
-//end::saveTacoOrder[]
-  //tag::findById[]
+
   public Mono<TacoOrder> findById(Long id) {
     return orderRepo
       .findById(id)
@@ -47,8 +44,5 @@ public class TacoOrderAggregateService {
           }).last();
       });
   }
-  //end::findById[]
 
-//tag::saveTacoOrder[]
 }
-//end::saveTacoOrder[]

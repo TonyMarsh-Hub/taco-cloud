@@ -11,7 +11,7 @@ import tacos.data.IngredientRepository;
 
 @RestController
 @RequestMapping(path="/api/ingredients", produces="application/json")
-@CrossOrigin(origins="*")
+@CrossOrigin(origins="http://localhost:8080")
 public class IngredientController {
 
   private IngredientRepository repo;
@@ -25,5 +25,5 @@ public class IngredientController {
   public Iterable<Ingredient> allIngredients() {
     return repo.findAll();
   }
-  
+
 }

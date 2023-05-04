@@ -16,10 +16,9 @@ public class RabbitOrderReceiver implements OrderReceiver {
   public RabbitOrderReceiver(RabbitTemplate rabbit) {
     this.rabbit = rabbit;
   }
-  
-  // tag::rabbitReceiveOrderMethod[]
+
   public TacoOrder receiveOrder() {
     return (TacoOrder) rabbit.receiveAndConvert("tacocloud.order.queue");
   }
-  // end::rabbitReceiveOrderMethod[]  
+
 }

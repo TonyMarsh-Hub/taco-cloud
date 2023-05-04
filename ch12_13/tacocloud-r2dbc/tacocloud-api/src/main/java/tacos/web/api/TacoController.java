@@ -4,10 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-//end::recents[]
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-//tag::recents[]
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +19,7 @@ import tacos.data.TacoRepository;
 
 @RestController
 @RequestMapping(path = "/api/tacos", produces = "application/json")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins="http://localhost:8080")
 public class TacoController {
   private TacoRepository tacoRepo;
   private IngredientRepository ingredientRepo;
@@ -63,11 +61,9 @@ public class TacoController {
     return tacoRepo.save(taco);
   }
 
-// tag::tacoById[]
   @GetMapping("/{id}")
   public Mono<Taco> tacoById(@PathVariable("id") Long id) {
     return tacoRepo.findById(id);
   }
-// end::tacoById[]
 
 }

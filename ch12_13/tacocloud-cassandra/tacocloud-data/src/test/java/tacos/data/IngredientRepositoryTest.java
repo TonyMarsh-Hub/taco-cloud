@@ -7,7 +7,6 @@
 // Another option is to try out Embedded Cassandra (see
 // https://nosan.github.io/embedded-cassandra/2.0.4/).
 //
-// tag::everythingButCassandraWarning[]
 package tacos.data;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -69,4 +68,3 @@ public class IngredientRepositoryTest {
   }
 
 }
-//end::everythingButCassandraWarning[]

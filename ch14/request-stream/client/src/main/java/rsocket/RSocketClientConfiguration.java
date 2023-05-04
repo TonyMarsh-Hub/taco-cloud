@@ -12,22 +12,21 @@ public class RSocketClientConfiguration {
 	@Bean
 	public ApplicationRunner sender(RSocketRequester.Builder requesterBuilder) {
 		return args -> {
-			//tag::receiveQuoteStream[]
 			String stockSymbol = "XYZ";
-			
+
 			RSocketRequester tcp = requesterBuilder.tcp("localhost", 7000);
 			tcp
 				.route("stock/{symbol}", stockSymbol)
 				.retrieveFlux(StockQuote.class)
-				.doOnNext(stockQuote -> {
+				.doOnNext(stockQuote ->
 					log.info(
-							"Price of " + stockQuote.getSymbol() + 
-							" : " + stockQuote.getPrice() + 
-							"  (at " + stockQuote.getTimestamp() + ")");
-				})
+							"Price of {} : {} (at {})",
+							stockQuote.getSymbol(),
+							stockQuote.getPrice(),
+							stockQuote.getTimestamp())
+				)
 				.subscribe();
-			//end::receiveQuoteStream[]
 		};
 	}
-	
+
 }

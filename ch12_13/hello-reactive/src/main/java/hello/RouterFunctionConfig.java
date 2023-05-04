@@ -1,4 +1,3 @@
-// tag::everythingButBye[]
 package hello;
 
 import static org.springframework.web
@@ -15,18 +14,13 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 @Configuration
 public class RouterFunctionConfig {
 
-  // tag::helloRouterFunction[]
   @Bean
   public RouterFunction<?> helloRouterFunction() {
     return route(GET("/hello"),
         request -> ok().body(just("Hello World!"), String.class))
-// end::everythingButBye[]
       .andRoute(GET("/bye"),
         request -> ok().body(just("See ya!"), String.class))
-// tag::everythingButBye[]
       ;
     }
-  // end::helloRouterFunction[]
 
 }
-// end::everythingButBye[]

@@ -1,4 +1,3 @@
-//tag::noJavaDoc[]
 package tacos.email;
 
 import java.io.IOException;
@@ -8,6 +7,8 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import org.apache.commons.text.similarity.LevenshteinDistance;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.integration.mail.transformer
                                             .AbstractMailMessageTransformer;
 import org.springframework.integration.support
@@ -15,7 +16,6 @@ import org.springframework.integration.support
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
-//end::noJavaDoc[]
 /**
  * <p>Handles email content as taco orders where...</p>
  *  <li> The order's email is the sender's email</li>
@@ -37,10 +37,12 @@ import org.springframework.stereotype.Component;
  * <p>This will result in an order with two tacos where the names are "Corn Carnitas" and "Veggielicious".
  * The ingredients will be {COTO, CARN, LETC, TMTO, CHED} and {FLTO,TMTO,LETC,SLSA}.</p>
  */
-//tag::noJavaDoc[]
 @Component
 public class EmailToOrderTransformer
      extends AbstractMailMessageTransformer<EmailOrder> {
+
+  private static Logger log =
+		  LoggerFactory.getLogger(EmailToOrderTransformer.class);
 
   private static final String SUBJECT_KEYWORDS = "TACO ORDER";
 
@@ -61,7 +63,10 @@ public class EmailToOrderTransformer
         return parseEmailToOrder(email, content);
       }
     } catch (MessagingException e) {
-    } catch (IOException e) {}
+    	log.error("MessagingException: {}", e);
+    } catch (IOException e) {
+    	log.error("IOException: {}", e);
+    }
     return null;
   }
 
@@ -116,4 +121,3 @@ public class EmailToOrderTransformer
       new Ingredient("SRCR", "SOUR CREAM")
   };
 }
-//end::noJavaDoc[]
