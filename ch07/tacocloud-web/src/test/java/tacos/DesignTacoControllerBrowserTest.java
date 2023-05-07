@@ -25,53 +25,53 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @Disabled("Reintroduce this test after fixing Spring Boot config")
 public class DesignTacoControllerBrowserTest {
 
-  private static ChromeDriver browser;
+    private static ChromeDriver browser;
 
-  @LocalServerPort
-  private int port;
+    @LocalServerPort
+    private int port;
 
-  @Autowired
-  TestRestTemplate rest;
+    @Autowired
+    TestRestTemplate rest;
 
-  @BeforeAll
-  public static void openBrowser() {
-    browser = new ChromeDriver();
-    browser.manage().timeouts()
-        .implicitlyWait(10, TimeUnit.SECONDS);
-  }
+    @BeforeAll
+    public static void openBrowser() {
+        browser = new ChromeDriver();
+        browser.manage().timeouts()
+                .implicitlyWait(10, TimeUnit.SECONDS);
+    }
 
-  @AfterAll
-  public static void closeBrowser() {
-    browser.quit();
-  }
+    @AfterAll
+    public static void closeBrowser() {
+        browser.quit();
+    }
 
-  @Test
-  @Disabled("TODO: Need to get around authentication in this test")
-  public void testDesignATacoPage() throws Exception {
-    browser.get("http://localhost:" + port + "/api/tacos");
+    @Test
+    @Disabled("TODO: Need to get around authentication in this test")
+    public void testDesignATacoPage() throws Exception {
+        browser.get("http://localhost:" + port + "/api/tacos");
 
-    List<WebElement> ingredientGroups = browser.findElementsByClassName("ingredient-group");
-    assertThat(ingredientGroups).hasSize(5);
+        List<WebElement> ingredientGroups = browser.findElementsByClassName("ingredient-group");
+        assertThat(ingredientGroups).hasSize(5);
 
-    WebElement wrapGroup = ingredientGroups.get(0);
-    List<WebElement> wraps = wrapGroup.findElements(By.tagName("div"));
-    assertThat(wraps).hasSize(2);
-    assertIngredient(wrapGroup, 0, "FLTO", "Flour Tortilla");
-    assertIngredient(wrapGroup, 1, "COTO", "Corn Tortilla");
+        WebElement wrapGroup = ingredientGroups.get(0);
+        List<WebElement> wraps = wrapGroup.findElements(By.tagName("div"));
+        assertThat(wraps).hasSize(2);
+        assertIngredient(wrapGroup, 0, "FLTO", "Flour Tortilla");
+        assertIngredient(wrapGroup, 1, "COTO", "Corn Tortilla");
 
-    WebElement proteinGroup = ingredientGroups.get(1);
-    List<WebElement> proteins = proteinGroup.findElements(By.tagName("div"));
-    assertThat(proteins).hasSize(2);
-    assertIngredient(proteinGroup, 0, "GRBF", "Ground Beef");
-    assertIngredient(proteinGroup, 1, "CARN", "Carnitas");
-  }
+        WebElement proteinGroup = ingredientGroups.get(1);
+        List<WebElement> proteins = proteinGroup.findElements(By.tagName("div"));
+        assertThat(proteins).hasSize(2);
+        assertIngredient(proteinGroup, 0, "GRBF", "Ground Beef");
+        assertIngredient(proteinGroup, 1, "CARN", "Carnitas");
+    }
 
-  private void assertIngredient(WebElement ingredientGroup,
-                                int ingredientIdx, String id, String name) {
-    List<WebElement> proteins = ingredientGroup.findElements(By.tagName("div"));
-    WebElement ingredient = proteins.get(ingredientIdx);
-    assertThat(ingredient.findElement(By.tagName("input")).getAttribute("value")).isEqualTo(id);
-    assertThat(ingredient.findElement(By.tagName("span")).getText()).isEqualTo(name);
-  }
+    private void assertIngredient(WebElement ingredientGroup,
+                                  int ingredientIdx, String id, String name) {
+        List<WebElement> proteins = ingredientGroup.findElements(By.tagName("div"));
+        WebElement ingredient = proteins.get(ingredientIdx);
+        assertThat(ingredient.findElement(By.tagName("input")).getAttribute("value")).isEqualTo(id);
+        assertThat(ingredient.findElement(By.tagName("span")).getText()).isEqualTo(name);
+    }
 
 }

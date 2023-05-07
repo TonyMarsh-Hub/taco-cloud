@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @UserDefinedType("ingredient")
 public class IngredientUDT {
-  private String name;
-  private Ingredient.Type type;
+    private String name;
+    private Ingredient.Type type;
 }

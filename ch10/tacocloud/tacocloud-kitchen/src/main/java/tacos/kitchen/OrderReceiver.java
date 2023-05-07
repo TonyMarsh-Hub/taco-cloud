@@ -4,6 +4,6 @@ import tacos.TacoOrder;
 
 public interface OrderReceiver {
 
-  TacoOrder receiveOrder();
+    TacoOrder receiveOrder();
 
 }

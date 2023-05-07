@@ -1,4 +1,5 @@
 package rsocket;
+
 import java.net.URI;
 
 import org.springframework.boot.ApplicationRunner;
@@ -11,25 +12,25 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RSocketClientConfiguration {
 
-	@Bean
-	public ApplicationRunner sender(RSocketRequester.Builder requesterBuilder) {
-		return args -> {
-			RSocketRequester requester = requesterBuilder.websocket(
-					URI.create("ws://localhost:8080/rsocket"));
+    @Bean
+    public ApplicationRunner sender(RSocketRequester.Builder requesterBuilder) {
+        return args -> {
+            RSocketRequester requester = requesterBuilder.websocket(
+                    URI.create("ws://localhost:8080/rsocket"));
 
-			requester
-				.route("greeting")
-				.data("Hello RSocket!")
-				.retrieveMono(String.class)
-				.subscribe(response -> log.info("Got a response: {}", response));
+            requester
+                    .route("greeting")
+                    .data("Hello RSocket!")
+                    .retrieveMono(String.class)
+                    .subscribe(response -> log.info("Got a response: {}", response));
 
-			String who = "Craig";
-			requester
-				.route("greeting/{name}", who)
-				.data("Hello RSocket!")
-				.retrieveMono(String.class)
-				.subscribe(response -> log.info("Got a response: {}", response));
-		};
-	}
+            String who = "Craig";
+            requester
+                    .route("greeting/{name}", who)
+                    .data("Hello RSocket!")
+                    .retrieveMono(String.class)
+                    .subscribe(response -> log.info("Got a response: {}", response));
+        };
+    }
 
 }

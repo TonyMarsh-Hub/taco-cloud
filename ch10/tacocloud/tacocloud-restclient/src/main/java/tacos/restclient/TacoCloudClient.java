@@ -16,35 +16,35 @@ import tacos.Taco;
 @Slf4j
 public class TacoCloudClient {
 
-  private RestTemplate rest;
+    private RestTemplate rest;
 
-  public TacoCloudClient(RestTemplate rest) {
-    this.rest = rest;
-  }
+    public TacoCloudClient(RestTemplate rest) {
+        this.rest = rest;
+    }
 
-  //
-  // GET examples
-  //
+    //
+    // GET examples
+    //
 
-  /*
-   * Specify parameter as varargs argument
-   */
-  public Ingredient getIngredientById(String ingredientId) {
-    return rest.getForObject("http://localhost:8080/api/ingredients/{id}",
-                             Ingredient.class, ingredientId);
-  }
+    /*
+     * Specify parameter as varargs argument
+     */
+    public Ingredient getIngredientById(String ingredientId) {
+        return rest.getForObject("http://localhost:8080/api/ingredients/{id}",
+                Ingredient.class, ingredientId);
+    }
 
-  /*
-   * Alternate implementations...
-   * The next three methods are alternative implementations of
-   * getIngredientById() as shown in chapter 6. If you'd like to try
-   * any of them out, comment out the previous method and uncomment
-   * the variant you want to use.
-   */
+    /*
+     * Alternate implementations...
+     * The next three methods are alternative implementations of
+     * getIngredientById() as shown in chapter 6. If you'd like to try
+     * any of them out, comment out the previous method and uncomment
+     * the variant you want to use.
+     */
 
-  /*
-   * Specify parameters with a map
-   */
+    /*
+     * Specify parameters with a map
+     */
   /*
   public Ingredient getIngredientById(String ingredientId) {
     Map<String, String> urlVariables = new HashMap<>();
@@ -54,9 +54,9 @@ public class TacoCloudClient {
   }
   */
 
-  /*
-   * Request with URI instead of String
-   */
+    /*
+     * Request with URI instead of String
+     */
   /*
   public Ingredient getIngredientById(String ingredientId) {
     Map<String, String> urlVariables = new HashMap<>();
@@ -68,9 +68,9 @@ public class TacoCloudClient {
   }
   */
 
-  /*
-   * Use getForEntity() instead of getForObject()
-   */
+    /*
+     * Use getForEntity() instead of getForObject()
+     */
   /*
   public Ingredient getIngredientById(String ingredientId) {
     ResponseEntity<Ingredient> responseEntity =
@@ -82,36 +82,37 @@ public class TacoCloudClient {
   }
   */
 
-  public List<Ingredient> getAllIngredients() {
-    return rest.exchange("http://localhost:8080/api/ingredients",
-            HttpMethod.GET, null, new ParameterizedTypeReference<List<Ingredient>>() {})
-        .getBody();
-  }
+    public List<Ingredient> getAllIngredients() {
+        return rest.exchange("http://localhost:8080/api/ingredients",
+                        HttpMethod.GET, null, new ParameterizedTypeReference<List<Ingredient>>() {
+                        })
+                .getBody();
+    }
 
-  //
-  // PUT examples
-  //
+    //
+    // PUT examples
+    //
 
-  public void updateIngredient(Ingredient ingredient) {
-    rest.put("http://localhost:8080/api/ingredients/{id}",
-          ingredient, ingredient.getId());
-  }
+    public void updateIngredient(Ingredient ingredient) {
+        rest.put("http://localhost:8080/api/ingredients/{id}",
+                ingredient, ingredient.getId());
+    }
 
-  //
-  // POST examples
-  //
-  public Ingredient createIngredient(Ingredient ingredient) {
-    return rest.postForObject("http://localhost:8080/api/ingredients",
-        ingredient, Ingredient.class);
-  }
+    //
+    // POST examples
+    //
+    public Ingredient createIngredient(Ingredient ingredient) {
+        return rest.postForObject("http://localhost:8080/api/ingredients",
+                ingredient, Ingredient.class);
+    }
 
-  /*
-   * Alternate implementations...
-   * The next two methods are alternative implementations of
-   * createIngredient() as shown in chapter 6. If you'd like to try
-   * any of them out, comment out the previous method and uncomment
-   * the variant you want to use.
-   */
+    /*
+     * Alternate implementations...
+     * The next two methods are alternative implementations of
+     * createIngredient() as shown in chapter 6. If you'd like to try
+     * any of them out, comment out the previous method and uncomment
+     * the variant you want to use.
+     */
   /*
   public java.net.URI createIngredient(Ingredient ingredient) {
     return rest.postForLocation("http://localhost:8080/api/ingredients",
@@ -131,23 +132,23 @@ public class TacoCloudClient {
   }
   */
 
-  //
-  // DELETE examples
-  //
-  public void deleteIngredient(Ingredient ingredient) {
-    rest.delete("http://localhost:8080/api/ingredients/{id}",
-        ingredient.getId());
-  }
+    //
+    // DELETE examples
+    //
+    public void deleteIngredient(Ingredient ingredient) {
+        rest.delete("http://localhost:8080/api/ingredients/{id}",
+                ingredient.getId());
+    }
 
-  // public Ingredient addIngredient(Ingredient ingredient) {
-  //   String ingredientsUrl = traverson
-  //       .follow("ingredients")
-  //       .asLink()
-  //       .getHref();
-  //
-  //   return rest.postForObject(ingredientsUrl,
-  //                             ingredient,
-  //                             Ingredient.class);
-  // }
+    // public Ingredient addIngredient(Ingredient ingredient) {
+    //   String ingredientsUrl = traverson
+    //       .follow("ingredients")
+    //       .asLink()
+    //       .getHref();
+    //
+    //   return rest.postForObject(ingredientsUrl,
+    //                             ingredient,
+    //                             Ingredient.class);
+    // }
 
 }

@@ -14,118 +14,118 @@ import reactor.test.StepVerifier;
 
 public class FluxTransformingTests {
 
-  @Test
-  public void skipAFew() {
-    Flux<String> countFlux = Flux.just(
-        "one", "two", "skip a few", "ninety nine", "one hundred")
-        .skip(3);
+    @Test
+    public void skipAFew() {
+        Flux<String> countFlux = Flux.just(
+                        "one", "two", "skip a few", "ninety nine", "one hundred")
+                .skip(3);
 
-    StepVerifier.create(countFlux)
-        .expectNext("ninety nine", "one hundred")
-        .verifyComplete();
-  }
+        StepVerifier.create(countFlux)
+                .expectNext("ninety nine", "one hundred")
+                .verifyComplete();
+    }
 
-  @Test
-  public void skipAFewSeconds() {
-    Flux<String> countFlux = Flux.just(
-        "one", "two", "skip a few", "ninety nine", "one hundred")
-        .delayElements(Duration.ofSeconds(1))
-        .skip(Duration.ofSeconds(4));
+    @Test
+    public void skipAFewSeconds() {
+        Flux<String> countFlux = Flux.just(
+                        "one", "two", "skip a few", "ninety nine", "one hundred")
+                .delayElements(Duration.ofSeconds(1))
+                .skip(Duration.ofSeconds(4));
 
-    StepVerifier.create(countFlux)
-        .expectNext("ninety nine", "one hundred")
-        .verifyComplete();
-  }
+        StepVerifier.create(countFlux)
+                .expectNext("ninety nine", "one hundred")
+                .verifyComplete();
+    }
 
-  @Test
-  public void take() {
-    Flux<String> nationalParkFlux = Flux.just(
-        "Yellowstone", "Yosemite", "Grand Canyon", "Zion", "Acadia")
-        .take(3);
+    @Test
+    public void take() {
+        Flux<String> nationalParkFlux = Flux.just(
+                        "Yellowstone", "Yosemite", "Grand Canyon", "Zion", "Acadia")
+                .take(3);
 
-    StepVerifier.create(nationalParkFlux)
-        .expectNext("Yellowstone", "Yosemite", "Grand Canyon")
-        .verifyComplete();
-  }
+        StepVerifier.create(nationalParkFlux)
+                .expectNext("Yellowstone", "Yosemite", "Grand Canyon")
+                .verifyComplete();
+    }
 
-  @Test
-  public void takeForAwhile() {
-    Flux<String> nationalParkFlux = Flux.just(
-        "Yellowstone", "Yosemite", "Grand Canyon", "Zion", "Grand Teton")
-        .delayElements(Duration.ofSeconds(1))
-        .take(Duration.ofMillis(3500));
+    @Test
+    public void takeForAwhile() {
+        Flux<String> nationalParkFlux = Flux.just(
+                        "Yellowstone", "Yosemite", "Grand Canyon", "Zion", "Grand Teton")
+                .delayElements(Duration.ofSeconds(1))
+                .take(Duration.ofMillis(3500));
 
-    StepVerifier.create(nationalParkFlux)
-        .expectNext("Yellowstone", "Yosemite", "Grand Canyon")
-        .verifyComplete();
-  }
+        StepVerifier.create(nationalParkFlux)
+                .expectNext("Yellowstone", "Yosemite", "Grand Canyon")
+                .verifyComplete();
+    }
 
-  @Test
-  public void filter() {
-    Flux<String> nationalParkFlux = Flux.just(
-        "Yellowstone", "Yosemite", "Grand Canyon", "Zion", "Grand Teton")
-        .filter(np -> !np.contains(" "));
+    @Test
+    public void filter() {
+        Flux<String> nationalParkFlux = Flux.just(
+                        "Yellowstone", "Yosemite", "Grand Canyon", "Zion", "Grand Teton")
+                .filter(np -> !np.contains(" "));
 
-    StepVerifier.create(nationalParkFlux)
-        .expectNext("Yellowstone", "Yosemite", "Zion")
-        .verifyComplete();
-  }
+        StepVerifier.create(nationalParkFlux)
+                .expectNext("Yellowstone", "Yosemite", "Zion")
+                .verifyComplete();
+    }
 
-  @Test
-  public void distinct() {
-    Flux<String> animalFlux = Flux.just(
-        "dog", "cat", "bird", "dog", "bird", "anteater")
-        .distinct();
+    @Test
+    public void distinct() {
+        Flux<String> animalFlux = Flux.just(
+                        "dog", "cat", "bird", "dog", "bird", "anteater")
+                .distinct();
 
-    StepVerifier.create(animalFlux)
-        .expectNext("dog", "cat", "bird", "anteater")
-        .verifyComplete();
-  }
+        StepVerifier.create(animalFlux)
+                .expectNext("dog", "cat", "bird", "anteater")
+                .verifyComplete();
+    }
 
-  @Test
-  public void map() {
-    Flux<Player> playerFlux = Flux
-      .just("Michael Jordan", "Scottie Pippen", "Steve Kerr")
-      .map(n -> {
-        String[] split = n.split("\\s");
-        return new Player(split[0], split[1]);
-      });
+    @Test
+    public void map() {
+        Flux<Player> playerFlux = Flux
+                .just("Michael Jordan", "Scottie Pippen", "Steve Kerr")
+                .map(n -> {
+                    String[] split = n.split("\\s");
+                    return new Player(split[0], split[1]);
+                });
 
-    StepVerifier.create(playerFlux)
-        .expectNext(new Player("Michael", "Jordan"))
-        .expectNext(new Player("Scottie", "Pippen"))
-        .expectNext(new Player("Steve", "Kerr"))
-        .verifyComplete();
-  }
+        StepVerifier.create(playerFlux)
+                .expectNext(new Player("Michael", "Jordan"))
+                .expectNext(new Player("Scottie", "Pippen"))
+                .expectNext(new Player("Steve", "Kerr"))
+                .verifyComplete();
+    }
 
-  @Test
-  public void flatMap() {
-    Flux<Player> playerFlux = Flux
-      .just("Michael Jordan", "Scottie Pippen", "Steve Kerr")
-      .flatMap(n -> Mono.just(n)
-          .map(p -> {
-              String[] split = p.split("\\s");
-              return new Player(split[0], split[1]);
-            })
-          .subscribeOn(Schedulers.parallel())
-        );
+    @Test
+    public void flatMap() {
+        Flux<Player> playerFlux = Flux
+                .just("Michael Jordan", "Scottie Pippen", "Steve Kerr")
+                .flatMap(n -> Mono.just(n)
+                        .map(p -> {
+                            String[] split = p.split("\\s");
+                            return new Player(split[0], split[1]);
+                        })
+                        .subscribeOn(Schedulers.parallel())
+                );
 
-    List<Player> playerList = Arrays.asList(
-        new Player("Michael", "Jordan"),
-        new Player("Scottie", "Pippen"),
-        new Player("Steve", "Kerr"));
+        List<Player> playerList = Arrays.asList(
+                new Player("Michael", "Jordan"),
+                new Player("Scottie", "Pippen"),
+                new Player("Steve", "Kerr"));
 
-    StepVerifier.create(playerFlux)
-        .expectNextMatches(p -> playerList.contains(p))
-        .expectNextMatches(p -> playerList.contains(p))
-        .expectNextMatches(p -> playerList.contains(p))
-        .verifyComplete();
-  }
+        StepVerifier.create(playerFlux)
+                .expectNextMatches(p -> playerList.contains(p))
+                .expectNextMatches(p -> playerList.contains(p))
+                .expectNextMatches(p -> playerList.contains(p))
+                .verifyComplete();
+    }
 
-  @Data
-  private static class Player {
-    private final String firstName;
-    private final String lastName;
-  }
-  
+    @Data
+    private static class Player {
+        private final String firstName;
+        private final String lastName;
+    }
+
 }

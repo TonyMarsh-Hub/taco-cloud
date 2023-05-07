@@ -20,32 +20,32 @@ import tacos.data.TacoRepository;
 
 @Configuration
 public class RouterFunctionConfig {
-    
-  @Autowired
-  private TacoRepository tacoRepo;
-  
-  @Bean
-  public RouterFunction<?> routerFunction() {
-    return route(GET("/api/tacos").
-              and(queryParam("recent", t->t != null )),
-              this::recents)
-       .andRoute(POST("/api/tacos"), this::postTaco);
-  }
-  
-  public Mono<ServerResponse> recents(ServerRequest request) {
-    return ServerResponse.ok()
-        .body(tacoRepo.findAll().take(12), Taco.class);
-  }
-  
-  public Mono<ServerResponse> postTaco(ServerRequest request) {
-    return request.bodyToMono(Taco.class)
-        .flatMap(taco -> tacoRepo.save(taco))
-        .flatMap(savedTaco -> {
-            return ServerResponse
-                .created(URI.create(
-                    "http://localhost:8080/api/tacos/" +
-                    savedTaco.getId()))
-               .body(savedTaco, Taco.class);
-        });
-  } 
+
+    @Autowired
+    private TacoRepository tacoRepo;
+
+    @Bean
+    public RouterFunction<?> routerFunction() {
+        return route(GET("/api/tacos").
+                        and(queryParam("recent", t -> t != null)),
+                this::recents)
+                .andRoute(POST("/api/tacos"), this::postTaco);
+    }
+
+    public Mono<ServerResponse> recents(ServerRequest request) {
+        return ServerResponse.ok()
+                .body(tacoRepo.findAll().take(12), Taco.class);
+    }
+
+    public Mono<ServerResponse> postTaco(ServerRequest request) {
+        return request.bodyToMono(Taco.class)
+                .flatMap(taco -> tacoRepo.save(taco))
+                .flatMap(savedTaco -> {
+                    return ServerResponse
+                            .created(URI.create(
+                                    "http://localhost:8080/api/tacos/" +
+                                            savedTaco.getId()))
+                            .body(savedTaco, Taco.class);
+                });
+    }
 }

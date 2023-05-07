@@ -9,19 +9,19 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 public class OrderSubmitMessageHandler
-       implements GenericHandler<EmailOrder> {
+        implements GenericHandler<EmailOrder> {
 
-  private RestTemplate rest;
-  private ApiProperties apiProps;
+    private RestTemplate rest;
+    private ApiProperties apiProps;
 
-  public OrderSubmitMessageHandler(ApiProperties apiProps, RestTemplate rest) {
-    this.apiProps = apiProps;
-    this.rest = rest;
-  }
+    public OrderSubmitMessageHandler(ApiProperties apiProps, RestTemplate rest) {
+        this.apiProps = apiProps;
+        this.rest = rest;
+    }
 
-  @Override
-  public Object handle(EmailOrder order, MessageHeaders headers) {
-    rest.postForObject(apiProps.getUrl(), order, String.class);
-    return null;
-  }
+    @Override
+    public Object handle(EmailOrder order, MessageHeaders headers) {
+        rest.postForObject(apiProps.getUrl(), order, String.class);
+        return null;
+    }
 }

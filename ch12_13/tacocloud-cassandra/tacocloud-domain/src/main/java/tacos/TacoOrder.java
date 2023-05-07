@@ -17,41 +17,41 @@ import lombok.Data;
 @Data
 @Table("tacoorders")
 public class TacoOrder implements Serializable {
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  @PrimaryKey
-  private UUID id = Uuids.timeBased();
-  private Date placedAt = new Date();
+    @PrimaryKey
+    private UUID id = Uuids.timeBased();
+    private Date placedAt = new Date();
 
-  @Column("user")
-  private UserUDT user;
+    @Column("user")
+    private UserUDT user;
 
-  private String deliveryName;
+    private String deliveryName;
 
-  private String deliveryStreet;
+    private String deliveryStreet;
 
-  private String deliveryCity;
+    private String deliveryCity;
 
-  private String deliveryState;
+    private String deliveryState;
 
-  private String deliveryZip;
+    private String deliveryZip;
 
-  private String ccNumber;
+    private String ccNumber;
 
-  private String ccExpiration;
+    private String ccExpiration;
 
-  private String ccCVV;
+    private String ccCVV;
 
 
-  @Column("tacos")
-  private List<TacoUDT> tacos = new ArrayList<>();
+    @Column("tacos")
+    private List<TacoUDT> tacos = new ArrayList<>();
 
-  public void addTaco(Taco taco) {
-    this.addTaco(new TacoUDT(taco.getName(), taco.getIngredients()));
-  }
+    public void addTaco(Taco taco) {
+        this.addTaco(new TacoUDT(taco.getName(), taco.getIngredients()));
+    }
 
-  public void addTaco(TacoUDT tacoUDT) {
-    this.tacos.add(tacoUDT);
-  }
+    public void addTaco(TacoUDT tacoUDT) {
+        this.tacos.add(tacoUDT);
+    }
 
 }

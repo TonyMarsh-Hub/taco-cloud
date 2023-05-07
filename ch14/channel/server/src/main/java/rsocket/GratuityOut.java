@@ -9,8 +9,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class GratuityOut {
 
-	private BigDecimal billTotal;
-	private int percent;
-	private BigDecimal gratuity;
-	
+    private BigDecimal billTotal;
+    private int percent;
+    private BigDecimal gratuity;
+
 }

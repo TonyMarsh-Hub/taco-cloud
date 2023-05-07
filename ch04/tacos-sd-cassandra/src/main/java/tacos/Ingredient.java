@@ -11,17 +11,17 @@ import lombok.RequiredArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor(access=AccessLevel.PRIVATE, force=true)
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @Table("ingredients")
 public class Ingredient {
 
-  @PrimaryKey
-  private String id;
-  private String name;
-  private Type type;
+    @PrimaryKey
+    private String id;
+    private String name;
+    private Type type;
 
-  public enum Type {
-    WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE
-  }
+    public enum Type {
+        WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE
+    }
 
 }

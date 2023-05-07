@@ -14,22 +14,22 @@ import tacos.kitchen.KitchenUI;
 @Component
 @Slf4j
 public class OrderListener {
-  
-  private KitchenUI ui;
 
-  @Autowired
-  public OrderListener(KitchenUI ui) {
-    this.ui = ui;
-  }
+    private KitchenUI ui;
 
-  @KafkaListener(topics="tacocloud.orders.topic")
-  public void handle(TacoOrder order, ConsumerRecord<String, TacoOrder> record) {
-    log.info("Received from partition {} with timestamp {}",
-        record.partition(), record.timestamp());
-    
-    ui.displayOrder(order);
-  }
-  
+    @Autowired
+    public OrderListener(KitchenUI ui) {
+        this.ui = ui;
+    }
+
+    @KafkaListener(topics = "tacocloud.orders.topic")
+    public void handle(TacoOrder order, ConsumerRecord<String, TacoOrder> record) {
+        log.info("Received from partition {} with timestamp {}",
+                record.partition(), record.timestamp());
+
+        ui.displayOrder(order);
+    }
+
 //
 // Alternate implementation
 //
@@ -41,5 +41,5 @@ public class OrderListener {
 //        headers.get(KafkaHeaders.RECEIVED_TIMESTAMP));
 //    ui.displayOrder(order);
 //  }
-  
+
 }

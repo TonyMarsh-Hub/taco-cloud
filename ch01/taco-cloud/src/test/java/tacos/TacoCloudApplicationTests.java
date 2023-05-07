@@ -6,8 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest                 // <1>
 public class TacoCloudApplicationTests {
 
-  @Test                         // <2>
-  public void contextLoads() {
-  }
+    @Test                         // <2>
+    public void contextLoads() {
+    }
 
 }

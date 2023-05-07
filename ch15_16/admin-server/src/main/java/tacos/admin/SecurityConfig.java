@@ -10,10 +10,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityWebFilterChain filterChain(ServerHttpSecurity http) throws Exception {
-      return http
-              .csrf()
-                  .disable()
-              .build();
+        return http
+                .csrf()
+                .disable()
+                .build();
     }
-    
+
 }

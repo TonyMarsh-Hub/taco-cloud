@@ -12,16 +12,16 @@ import tacos.kitchen.KitchenUI;
 @Component
 public class OrderListener {
 
-  private KitchenUI ui;
+    private KitchenUI ui;
 
-  @Autowired
-  public OrderListener(KitchenUI ui) {
-    this.ui = ui;
-  }
+    @Autowired
+    public OrderListener(KitchenUI ui) {
+        this.ui = ui;
+    }
 
-  @RabbitListener(queues = "tacocloud.order.queue")
-  public void receiveOrder(TacoOrder order) {
-    ui.displayOrder(order);
-  }
+    @RabbitListener(queues = "tacocloud.order.queue")
+    public void receiveOrder(TacoOrder order) {
+        ui.displayOrder(order);
+    }
 
 }

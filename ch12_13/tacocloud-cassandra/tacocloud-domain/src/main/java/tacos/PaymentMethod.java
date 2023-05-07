@@ -15,16 +15,16 @@ import lombok.RequiredArgsConstructor;
 
 @Table("payment_method")
 @Data
-@NoArgsConstructor(force=true, access=AccessLevel.PRIVATE)
+@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 public class PaymentMethod {
 
-  @PrimaryKeyColumn(type=PrimaryKeyType.PARTITIONED)
-  private UUID id = Uuids.timeBased();
-  
-  private final UserUDT user;
-  private final String ccNumber;
-  private final String ccCVV;
-  private final String ccExpiration;
-  
+    @PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED)
+    private UUID id = Uuids.timeBased();
+
+    private final UserUDT user;
+    private final String ccNumber;
+    private final String ccCVV;
+    private final String ccExpiration;
+
 }

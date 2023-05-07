@@ -8,5 +8,5 @@ import lombok.Data;
 @ConfigurationProperties(prefix = "tacocloud.api")
 @Component
 public class ApiProperties {
-  private String url;
+    private String url;
 }

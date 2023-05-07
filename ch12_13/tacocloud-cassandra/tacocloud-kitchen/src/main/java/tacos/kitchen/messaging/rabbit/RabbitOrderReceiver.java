@@ -11,14 +11,14 @@ import tacos.kitchen.OrderReceiver;
 @Component("templateOrderReceiver")
 public class RabbitOrderReceiver implements OrderReceiver {
 
-  private RabbitTemplate rabbit;
+    private RabbitTemplate rabbit;
 
-  public RabbitOrderReceiver(RabbitTemplate rabbit) {
-    this.rabbit = rabbit;
-  }
-  
-  public TacoOrder receiveOrder() {
-    return (TacoOrder) rabbit.receiveAndConvert("tacocloud.order.queue");
-  }
-  
+    public RabbitOrderReceiver(RabbitTemplate rabbit) {
+        this.rabbit = rabbit;
+    }
+
+    public TacoOrder receiveOrder() {
+        return (TacoOrder) rabbit.receiveAndConvert("tacocloud.order.queue");
+    }
+
 }

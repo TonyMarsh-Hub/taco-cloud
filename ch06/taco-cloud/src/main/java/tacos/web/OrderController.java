@@ -1,4 +1,5 @@
 package tacos.web;
+
 import javax.validation.Valid;
 
 import org.springframework.data.domain.PageRequest;
@@ -23,65 +24,65 @@ import tacos.data.OrderRepository;
 @SessionAttributes("order")
 public class OrderController {
 
-  private OrderRepository orderRepo;
+    private OrderRepository orderRepo;
 
-  private OrderProps props;
+    private OrderProps props;
 
-  public OrderController(OrderRepository orderRepo,
-          OrderProps props) {
-    this.orderRepo = orderRepo;
-    this.props = props;
-  }
-
-  @GetMapping("/current")
-  public String orderForm(@AuthenticationPrincipal User user,
-      @ModelAttribute TacoOrder order) {
-    if (order.getDeliveryName() == null) {
-      order.setDeliveryName(user.getFullname());
-    }
-    if (order.getDeliveryStreet() == null) {
-      order.setDeliveryStreet(user.getStreet());
-    }
-    if (order.getDeliveryCity() == null) {
-      order.setDeliveryCity(user.getCity());
-    }
-    if (order.getDeliveryState() == null) {
-      order.setDeliveryState(user.getState());
-    }
-    if (order.getDeliveryZip() == null) {
-      order.setDeliveryZip(user.getZip());
+    public OrderController(OrderRepository orderRepo,
+                           OrderProps props) {
+        this.orderRepo = orderRepo;
+        this.props = props;
     }
 
-    return "orderForm";
-  }
+    @GetMapping("/current")
+    public String orderForm(@AuthenticationPrincipal User user,
+                            @ModelAttribute TacoOrder order) {
+        if (order.getDeliveryName() == null) {
+            order.setDeliveryName(user.getFullname());
+        }
+        if (order.getDeliveryStreet() == null) {
+            order.setDeliveryStreet(user.getStreet());
+        }
+        if (order.getDeliveryCity() == null) {
+            order.setDeliveryCity(user.getCity());
+        }
+        if (order.getDeliveryState() == null) {
+            order.setDeliveryState(user.getState());
+        }
+        if (order.getDeliveryZip() == null) {
+            order.setDeliveryZip(user.getZip());
+        }
 
-  @PostMapping
-  public String processOrder(@Valid TacoOrder order, Errors errors,
-      SessionStatus sessionStatus,
-      @AuthenticationPrincipal User user) {
-
-    if (errors.hasErrors()) {
-      return "orderForm";
+        return "orderForm";
     }
 
-    order.setUser(user);
+    @PostMapping
+    public String processOrder(@Valid TacoOrder order, Errors errors,
+                               SessionStatus sessionStatus,
+                               @AuthenticationPrincipal User user) {
 
-    orderRepo.save(order);
-    sessionStatus.setComplete();
+        if (errors.hasErrors()) {
+            return "orderForm";
+        }
 
-    return "redirect:/";
-  }
+        order.setUser(user);
 
-  @GetMapping
-  public String ordersForUser(
-      @AuthenticationPrincipal User user, Model model) {
+        orderRepo.save(order);
+        sessionStatus.setComplete();
 
-    Pageable pageable = PageRequest.of(0, props.getPageSize());
-    model.addAttribute("orders",
-        orderRepo.findByUserOrderByPlacedAtDesc(user, pageable));
+        return "redirect:/";
+    }
 
-    return "orderList";
-  }
+    @GetMapping
+    public String ordersForUser(
+            @AuthenticationPrincipal User user, Model model) {
+
+        Pageable pageable = PageRequest.of(0, props.getPageSize());
+        model.addAttribute("orders",
+                orderRepo.findByUserOrderByPlacedAtDesc(user, pageable));
+
+        return "orderList";
+    }
 
   /*
   @GetMapping

@@ -12,19 +12,19 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/admin/ingredients")
 @RequiredArgsConstructor
 public class ManageIngredientsController {
-  
-  private final IngredientService ingredientService;
 
-  @GetMapping
-  public String ingredientsAdmin(Model model) {
-    model.addAttribute("ingredients", ingredientService.findAll());
-    return "ingredientsAdmin";
-  }
-  
-  @PostMapping
-  public String addIngredient(Ingredient ingredient) {
-    ingredientService.addIngredient(ingredient);
-    return "redirect:/admin/ingredients";
-  }
-  
+    private final IngredientService ingredientService;
+
+    @GetMapping
+    public String ingredientsAdmin(Model model) {
+        model.addAttribute("ingredients", ingredientService.findAll());
+        return "ingredientsAdmin";
+    }
+
+    @PostMapping
+    public String addIngredient(Ingredient ingredient) {
+        ingredientService.addIngredient(ingredient);
+        return "redirect:/admin/ingredients";
+    }
+
 }

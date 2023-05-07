@@ -17,16 +17,16 @@ import lombok.Data;
 @Document
 public class Taco {
 
-  @Id
-  private String id;
-  
-  @NotNull
-  @Size(min = 5, message = "Name must be at least 5 characters long")
-  private String name;
-  
-  private Date createdAt = new Date();
-  
-  @Size(min=1, message="You must choose at least 1 ingredient")
-  private List<Ingredient> ingredients;
+    @Id
+    private String id;
+
+    @NotNull
+    @Size(min = 5, message = "Name must be at least 5 characters long")
+    private String name;
+
+    private Date createdAt = new Date();
+
+    @Size(min = 1, message = "You must choose at least 1 ingredient")
+    private List<Ingredient> ingredients;
 
 }

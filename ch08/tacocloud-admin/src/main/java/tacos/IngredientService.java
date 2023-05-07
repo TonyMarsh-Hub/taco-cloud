@@ -2,8 +2,8 @@ package tacos;
 
 public interface IngredientService {
 
-  Iterable<Ingredient> findAll();
-  
-  Ingredient addIngredient(Ingredient ingredient);
-    
+    Iterable<Ingredient> findAll();
+
+    Ingredient addIngredient(Ingredient ingredient);
+
 }

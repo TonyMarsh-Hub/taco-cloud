@@ -11,17 +11,17 @@ import tacos.kitchen.KitchenUI;
 @Profile("jms-listener")
 @Component
 public class OrderListener {
-  
-  private KitchenUI ui;
 
-  @Autowired
-  public OrderListener(KitchenUI ui) {
-    this.ui = ui;
-  }
+    private KitchenUI ui;
 
-  @JmsListener(destination = "tacocloud.order.queue")
-  public void receiveOrder(TacoOrder order) {
-    ui.displayOrder(order);
-  }
-  
+    @Autowired
+    public OrderListener(KitchenUI ui) {
+        this.ui = ui;
+    }
+
+    @JmsListener(destination = "tacocloud.order.queue")
+    public void receiveOrder(TacoOrder order) {
+        ui.displayOrder(order);
+    }
+
 }

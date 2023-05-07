@@ -12,24 +12,24 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class TacoControllerWebTest {
 
-  @Autowired
-  private WebTestClient testClient;
+    @Autowired
+    private WebTestClient testClient;
 
-  @Test
-  public void shouldReturnRecentTacos() throws IOException {
-    testClient.get().uri("/api/tacos?recent")
-      .accept(MediaType.APPLICATION_JSON).exchange()
-      .expectStatus().isOk()
-      .expectBody()
-          .jsonPath("$[?(@.id == 1)].name")
-              .isEqualTo("Carnivore")
-          .jsonPath("$[?(@.id == 2)].name")
-              .isEqualTo("Bovine Bounty")
-          .jsonPath("$[?(@.id == 3)].name")
-              .isEqualTo("Veg-Out");
-  }
+    @Test
+    public void shouldReturnRecentTacos() throws IOException {
+        testClient.get().uri("/api/tacos?recent")
+                .accept(MediaType.APPLICATION_JSON).exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$[?(@.id == 1)].name")
+                .isEqualTo("Carnivore")
+                .jsonPath("$[?(@.id == 2)].name")
+                .isEqualTo("Bovine Bounty")
+                .jsonPath("$[?(@.id == 3)].name")
+                .isEqualTo("Veg-Out");
+    }
 
 }

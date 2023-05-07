@@ -1,4 +1,5 @@
 package tacos.web;
+
 import javax.validation.Valid;
 
 import org.springframework.data.domain.PageRequest;
@@ -23,66 +24,66 @@ import tacos.data.OrderRepository;
 @RequestMapping("/orders")
 @SessionAttributes("order")
 public class OrderController {
-  
-  private OrderRepository orderRepo;
 
-  private OrderProps props;
+    private OrderRepository orderRepo;
 
-  public OrderController(OrderRepository orderRepo, 
-          OrderProps props) {
-    this.orderRepo = orderRepo;
-    this.props = props;
-  }
-  
-  @GetMapping("/current")
-  public String orderForm(@AuthenticationPrincipal User user, 
-      @ModelAttribute TacoOrder order) {
-    if (order.getDeliveryName() == null) {
-      order.setDeliveryName(user.getFullname());
-    }
-    if (order.getDeliveryStreet() == null) {
-      order.setDeliveryStreet(user.getStreet());
-    }
-    if (order.getDeliveryCity() == null) {
-      order.setDeliveryCity(user.getCity());
-    }
-    if (order.getDeliveryState() == null) {
-      order.setDeliveryState(user.getState());
-    }
-    if (order.getDeliveryZip() == null) {
-      order.setDeliveryZip(user.getZip());
-    }
-    
-    return "orderForm";
-  }
+    private OrderProps props;
 
-  @PostMapping
-  public String processOrder(@Valid TacoOrder order, Errors errors, 
-      SessionStatus sessionStatus, 
-      @AuthenticationPrincipal User user) {
-    
-    if (errors.hasErrors()) {
-      return "orderForm";
+    public OrderController(OrderRepository orderRepo,
+                           OrderProps props) {
+        this.orderRepo = orderRepo;
+        this.props = props;
     }
 
-    UserUDT userUDT = new UserUDT(user.getUsername(), user.getFullname(), user.getPhoneNumber());
-    order.setUser(userUDT);
-    
-    orderRepo.save(order);
-    sessionStatus.setComplete();
-    
-    return "redirect:/";
-  }
-  
-  @GetMapping
-  public String ordersForUser(
-      @AuthenticationPrincipal User user, Model model) {
+    @GetMapping("/current")
+    public String orderForm(@AuthenticationPrincipal User user,
+                            @ModelAttribute TacoOrder order) {
+        if (order.getDeliveryName() == null) {
+            order.setDeliveryName(user.getFullname());
+        }
+        if (order.getDeliveryStreet() == null) {
+            order.setDeliveryStreet(user.getStreet());
+        }
+        if (order.getDeliveryCity() == null) {
+            order.setDeliveryCity(user.getCity());
+        }
+        if (order.getDeliveryState() == null) {
+            order.setDeliveryState(user.getState());
+        }
+        if (order.getDeliveryZip() == null) {
+            order.setDeliveryZip(user.getZip());
+        }
 
-    Pageable pageable = PageRequest.of(0, props.getPageSize());
-    model.addAttribute("orders", 
-        orderRepo.findByUserOrderByPlacedAtDesc(user, pageable));
-    
-    return "orderList";
-  }
+        return "orderForm";
+    }
+
+    @PostMapping
+    public String processOrder(@Valid TacoOrder order, Errors errors,
+                               SessionStatus sessionStatus,
+                               @AuthenticationPrincipal User user) {
+
+        if (errors.hasErrors()) {
+            return "orderForm";
+        }
+
+        UserUDT userUDT = new UserUDT(user.getUsername(), user.getFullname(), user.getPhoneNumber());
+        order.setUser(userUDT);
+
+        orderRepo.save(order);
+        sessionStatus.setComplete();
+
+        return "redirect:/";
+    }
+
+    @GetMapping
+    public String ordersForUser(
+            @AuthenticationPrincipal User user, Model model) {
+
+        Pageable pageable = PageRequest.of(0, props.getPageSize());
+        model.addAttribute("orders",
+                orderRepo.findByUserOrderByPlacedAtDesc(user, pageable));
+
+        return "orderList";
+    }
 
 }

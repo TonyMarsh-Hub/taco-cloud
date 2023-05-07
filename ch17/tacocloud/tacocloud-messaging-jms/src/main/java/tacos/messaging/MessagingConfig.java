@@ -12,17 +12,17 @@ import tacos.TacoOrder;
 @Configuration
 public class MessagingConfig {
 
-  @Bean
-  public MappingJackson2MessageConverter messageConverter() {
-    MappingJackson2MessageConverter messageConverter =
-                            new MappingJackson2MessageConverter();
-    messageConverter.setTypeIdPropertyName("_typeId");
-    
-    Map<String, Class<?>> typeIdMappings = new HashMap<String, Class<?>>();
-    typeIdMappings.put("order", TacoOrder.class);
-    messageConverter.setTypeIdMappings(typeIdMappings);
-    
-    return messageConverter;
-  }
+    @Bean
+    public MappingJackson2MessageConverter messageConverter() {
+        MappingJackson2MessageConverter messageConverter =
+                new MappingJackson2MessageConverter();
+        messageConverter.setTypeIdPropertyName("_typeId");
+
+        Map<String, Class<?>> typeIdMappings = new HashMap<String, Class<?>>();
+        typeIdMappings.put("order", TacoOrder.class);
+        messageConverter.setTypeIdMappings(typeIdMappings);
+
+        return messageConverter;
+    }
 
 }

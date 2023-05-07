@@ -1,4 +1,5 @@
 package rsocket;
+
 import java.time.Instant;
 
 import org.springframework.boot.ApplicationRunner;
@@ -12,18 +13,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RSocketClientConfiguration {
 
-	@Bean
-	public ApplicationRunner sender(RSocketRequester.Builder requesterBuilder) {
-		return args -> {
-			RSocketRequester tcp = requesterBuilder.tcp("localhost", 7000);
-			tcp
-				.route("alert")
-				.data(new Alert(
-						Alert.Level.RED, "Craig", Instant.now()))
-				.send()
-				.subscribe();
-			log.info("Alert sent");
-		};
-	}
+    @Bean
+    public ApplicationRunner sender(RSocketRequester.Builder requesterBuilder) {
+        return args -> {
+            RSocketRequester tcp = requesterBuilder.tcp("localhost", 7000);
+            tcp
+                    .route("alert")
+                    .data(new Alert(
+                            Alert.Level.RED, "Craig", Instant.now()))
+                    .send()
+                    .subscribe();
+            log.info("Alert sent");
+        };
+    }
 
 }

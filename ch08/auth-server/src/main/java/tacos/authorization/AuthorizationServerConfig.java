@@ -1,4 +1,5 @@
 package tacos.authorization;
+
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
@@ -13,18 +14,18 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration
-                                        .OAuth2AuthorizationServerConfiguration;
+        .OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.client
-                                            .InMemoryRegisteredClientRepository;
+        .InMemoryRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client
-                                                              .RegisteredClient;
+        .RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client
-                                                    .RegisteredClientRepository;
+        .RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -36,17 +37,17 @@ import com.nimbusds.jose.proc.SecurityContext;
 @Configuration(proxyBeanMethods = false)
 public class AuthorizationServerConfig {
 
-  @Bean
-  @Order(Ordered.HIGHEST_PRECEDENCE)
-  public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
-    OAuth2AuthorizationServerConfiguration
-        .applyDefaultSecurity(http);
-    return http
-        .formLogin(Customizer.withDefaults())
-        .build();
-  }
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
+        OAuth2AuthorizationServerConfiguration
+                .applyDefaultSecurity(http);
+        return http
+                .formLogin(Customizer.withDefaults())
+                .build();
+    }
 
-  // @formatter:off
+    // @formatter:off
   @Bean
   public RegisteredClientRepository registeredClientRepository(
           PasswordEncoder passwordEncoder) {
@@ -70,38 +71,38 @@ public class AuthorizationServerConfig {
   }
   // @formatter:on
 
-  @Bean
-  public ProviderSettings providerSettings() {
-    return new ProviderSettings().issuer("http://authserver:9000");
-  }
+    @Bean
+    public ProviderSettings providerSettings() {
+        return new ProviderSettings().issuer("http://authserver:9000");
+    }
 
-  @Bean
-  public JWKSource<SecurityContext> jwkSource()
-		  throws NoSuchAlgorithmException {
-    RSAKey rsaKey = generateRsa();
-    JWKSet jwkSet = new JWKSet(rsaKey);
-    return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
-  }
+    @Bean
+    public JWKSource<SecurityContext> jwkSource()
+            throws NoSuchAlgorithmException {
+        RSAKey rsaKey = generateRsa();
+        JWKSet jwkSet = new JWKSet(rsaKey);
+        return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
+    }
 
-  private static RSAKey generateRsa() throws NoSuchAlgorithmException {
-    KeyPair keyPair = generateRsaKey();
-    RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-    RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-    return new RSAKey.Builder(publicKey)
-        .privateKey(privateKey)
-        .keyID(UUID.randomUUID().toString())
-        .build();
-  }
+    private static RSAKey generateRsa() throws NoSuchAlgorithmException {
+        KeyPair keyPair = generateRsaKey();
+        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+        RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+        return new RSAKey.Builder(publicKey)
+                .privateKey(privateKey)
+                .keyID(UUID.randomUUID().toString())
+                .build();
+    }
 
-  private static KeyPair generateRsaKey() throws NoSuchAlgorithmException {
-	  KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-	  keyPairGenerator.initialize(2048);
-	  return keyPairGenerator.generateKeyPair();
-  }
+    private static KeyPair generateRsaKey() throws NoSuchAlgorithmException {
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        keyPairGenerator.initialize(2048);
+        return keyPairGenerator.generateKeyPair();
+    }
 
-  @Bean
-  public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
-    return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
-  }
+    @Bean
+    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
+        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
+    }
 
 }

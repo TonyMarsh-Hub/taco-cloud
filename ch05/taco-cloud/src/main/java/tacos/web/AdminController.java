@@ -10,22 +10,22 @@ import tacos.data.service.OrderAdminService;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-  
-  private OrderAdminService adminService;
 
-  public AdminController(OrderAdminService adminService) {
-    this.adminService = adminService;
-  }
-  
-  @GetMapping
-  public String showAdminPage() {
-    return "admin";
-  }
+    private OrderAdminService adminService;
 
-  @PostMapping("/deleteOrders")
-  public String deleteAllOrders() {
-    adminService.deleteAllOrders();
-    return "redirect:/admin";
-  }
+    public AdminController(OrderAdminService adminService) {
+        this.adminService = adminService;
+    }
+
+    @GetMapping
+    public String showAdminPage() {
+        return "admin";
+    }
+
+    @PostMapping("/deleteOrders")
+    public String deleteAllOrders() {
+        adminService.deleteAllOrders();
+        return "redirect:/admin";
+    }
 
 }

@@ -15,22 +15,22 @@ import tacos.TacoOrder;
 @Configuration
 public class MessagingConfig {
 
-  @Bean
-  public MappingJackson2MessageConverter messageConverter() {
-    MappingJackson2MessageConverter messageConverter =
-                            new MappingJackson2MessageConverter();
-    messageConverter.setTypeIdPropertyName("_typeId");
+    @Bean
+    public MappingJackson2MessageConverter messageConverter() {
+        MappingJackson2MessageConverter messageConverter =
+                new MappingJackson2MessageConverter();
+        messageConverter.setTypeIdPropertyName("_typeId");
 
-    Map<String, Class<?>> typeIdMappings = new HashMap<String, Class<?>>();
-    typeIdMappings.put("order", TacoOrder.class);
-    messageConverter.setTypeIdMappings(typeIdMappings);
+        Map<String, Class<?>> typeIdMappings = new HashMap<String, Class<?>>();
+        typeIdMappings.put("order", TacoOrder.class);
+        messageConverter.setTypeIdMappings(typeIdMappings);
 
-    return messageConverter;
-  }
+        return messageConverter;
+    }
 
-  @Bean
-  public Destination orderQueue() {
-    return new ActiveMQQueue("tacocloud.order.queue");
-  }
+    @Bean
+    public Destination orderQueue() {
+        return new ActiveMQQueue("tacocloud.order.queue");
+    }
 
 }

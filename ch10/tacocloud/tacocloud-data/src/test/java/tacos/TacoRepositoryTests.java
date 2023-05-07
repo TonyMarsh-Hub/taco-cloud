@@ -17,40 +17,40 @@ import tacos.data.TacoRepository;
 
 @DataJpaTest
 public class TacoRepositoryTests {
-	
-	@Autowired
-	IngredientRepository ingredientRepo;
-	
-	@Autowired
-	TacoRepository tacoRepo;
 
-	private List<Ingredient> ingredients;
-	
-	@BeforeEach
-	public void setupIngredients() {
-		ingredients = new ArrayList<>();
-		ingredients.add(new Ingredient("FLTO", "Flour Tortilla", Type.WRAP));
-		ingredients.add(new Ingredient("GRBF", "Ground Beef", Type.PROTEIN));
-		ingredients.add(new Ingredient("JACK", "Monterrey Jack", Type.CHEESE));
-		for (Ingredient ingredient : ingredients) {
-			ingredientRepo.save(ingredient);
-		}
-	}
+    @Autowired
+    IngredientRepository ingredientRepo;
 
-	@Test
-	public void shouldSaveATaco() {
-		Taco newTaco = new Taco();
-		newTaco.setCreatedAt(new Date());
-		newTaco.setName("My Awesome Taco");
-		newTaco.setIngredients(ingredients);
-		
-		assertThat(tacoRepo.count()).isEqualTo(0);
-		Taco savedTaco = tacoRepo.save(newTaco);
-		assertThat(tacoRepo.count()).isEqualTo(1);
-		
-		Taco foundTaco = tacoRepo.findById(savedTaco.getId()).get();
-		System.out.println(foundTaco);
-		assertThat(foundTaco).isEqualTo(newTaco);
-	}
-	
+    @Autowired
+    TacoRepository tacoRepo;
+
+    private List<Ingredient> ingredients;
+
+    @BeforeEach
+    public void setupIngredients() {
+        ingredients = new ArrayList<>();
+        ingredients.add(new Ingredient("FLTO", "Flour Tortilla", Type.WRAP));
+        ingredients.add(new Ingredient("GRBF", "Ground Beef", Type.PROTEIN));
+        ingredients.add(new Ingredient("JACK", "Monterrey Jack", Type.CHEESE));
+        for (Ingredient ingredient : ingredients) {
+            ingredientRepo.save(ingredient);
+        }
+    }
+
+    @Test
+    public void shouldSaveATaco() {
+        Taco newTaco = new Taco();
+        newTaco.setCreatedAt(new Date());
+        newTaco.setName("My Awesome Taco");
+        newTaco.setIngredients(ingredients);
+
+        assertThat(tacoRepo.count()).isEqualTo(0);
+        Taco savedTaco = tacoRepo.save(newTaco);
+        assertThat(tacoRepo.count()).isEqualTo(1);
+
+        Taco foundTaco = tacoRepo.findById(savedTaco.getId()).get();
+        System.out.println(foundTaco);
+        assertThat(foundTaco).isEqualTo(newTaco);
+    }
+
 }

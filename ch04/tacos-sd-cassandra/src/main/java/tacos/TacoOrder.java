@@ -1,4 +1,5 @@
 package tacos;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,45 +23,45 @@ import lombok.Data;
 @Table("orders") // <1>
 public class TacoOrder implements Serializable {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  @PrimaryKey  // <2>
-  private UUID id = Uuids.timeBased();
+    @PrimaryKey  // <2>
+    private UUID id = Uuids.timeBased();
 
-  private Date placedAt = new Date();
+    private Date placedAt = new Date();
 
-  // delivery and credit card properties omitted for brevity's sake
+    // delivery and credit card properties omitted for brevity's sake
 
-  @NotBlank(message="Delivery name is required")
-  private String deliveryName;
+    @NotBlank(message = "Delivery name is required")
+    private String deliveryName;
 
-  @NotBlank(message="Street is required")
-  private String deliveryStreet;
+    @NotBlank(message = "Street is required")
+    private String deliveryStreet;
 
-  @NotBlank(message="City is required")
-  private String deliveryCity;
+    @NotBlank(message = "City is required")
+    private String deliveryCity;
 
-  @NotBlank(message="State is required")
-  private String deliveryState;
+    @NotBlank(message = "State is required")
+    private String deliveryState;
 
-  @NotBlank(message="Zip code is required")
-  private String deliveryZip;
+    @NotBlank(message = "Zip code is required")
+    private String deliveryZip;
 
-  @CreditCardNumber(message="Not a valid credit card number")
-  private String ccNumber;
+    @CreditCardNumber(message = "Not a valid credit card number")
+    private String ccNumber;
 
-  @Pattern(regexp="^(0[1-9]|1[0-2])([\\/])([2-9][0-9])$",
-           message="Must be formatted MM/YY")
-  private String ccExpiration;
+    @Pattern(regexp = "^(0[1-9]|1[0-2])([\\/])([2-9][0-9])$",
+            message = "Must be formatted MM/YY")
+    private String ccExpiration;
 
-  @Digits(integer=3, fraction=0, message="Invalid CVV")
-  private String ccCVV;
+    @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
+    private String ccCVV;
 
-  @Column("tacos")  // <3>
-  private List<TacoUDT> tacos = new ArrayList<>();
+    @Column("tacos")  // <3>
+    private List<TacoUDT> tacos = new ArrayList<>();
 
-  public void addTaco(TacoUDT taco) {
-    this.tacos.add(taco);
-  }
+    public void addTaco(TacoUDT taco) {
+        this.tacos.add(taco);
+    }
 
 }

@@ -19,102 +19,104 @@ import tacos.Ingredient;
 @Slf4j
 public class TacoCloudClient {
 
-  private RestTemplate rest;
-  public TacoCloudClient(RestTemplate rest) {
-    this.rest = rest;
-  }
+    private RestTemplate rest;
 
-  //
-  // GET examples
-  //
+    public TacoCloudClient(RestTemplate rest) {
+        this.rest = rest;
+    }
 
-  /*
-   * Specify parameter as varargs argument
-   */
-  public Ingredient getIngredientById(String ingredientId) {
-    return rest.getForObject("http://localhost:8080/api/ingredients/{id}", 
-                             Ingredient.class, ingredientId);
-  }
+    //
+    // GET examples
+    //
 
-  /*
-   * Specify parameters with a map
-   */
-  public Ingredient getIngredientById2(String ingredientId) {
-    Map<String, String> urlVariables = new HashMap<>();
-    urlVariables.put("id", ingredientId);
-    return rest.getForObject("http://localhost:8080/api/ingredients/{id}",
-        Ingredient.class, urlVariables);
-  }
+    /*
+     * Specify parameter as varargs argument
+     */
+    public Ingredient getIngredientById(String ingredientId) {
+        return rest.getForObject("http://localhost:8080/api/ingredients/{id}",
+                Ingredient.class, ingredientId);
+    }
 
-  /*
-   * Request with URI instead of String
-   */
-  public Ingredient getIngredientById3(String ingredientId) {
-    Map<String, String> urlVariables = new HashMap<>();
-    urlVariables.put("id", ingredientId);
-    URI url = UriComponentsBuilder
-              .fromHttpUrl("http://localhost:8080/api/ingredients/{id}")
-              .build(urlVariables);
-    return rest.getForObject(url, Ingredient.class);
-  }
+    /*
+     * Specify parameters with a map
+     */
+    public Ingredient getIngredientById2(String ingredientId) {
+        Map<String, String> urlVariables = new HashMap<>();
+        urlVariables.put("id", ingredientId);
+        return rest.getForObject("http://localhost:8080/api/ingredients/{id}",
+                Ingredient.class, urlVariables);
+    }
 
-  /*
-   * Use getForEntity() instead of getForObject()
-   */
-  public Ingredient getIngredientById4(String ingredientId) {
-    ResponseEntity<Ingredient> responseEntity =
-        rest.getForEntity("http://localhost:8080/api/ingredients/{id}",
-            Ingredient.class, ingredientId);
-    log.info("Fetched time: " +
-            responseEntity.getHeaders().getDate());
-    return responseEntity.getBody();
-  }
+    /*
+     * Request with URI instead of String
+     */
+    public Ingredient getIngredientById3(String ingredientId) {
+        Map<String, String> urlVariables = new HashMap<>();
+        urlVariables.put("id", ingredientId);
+        URI url = UriComponentsBuilder
+                .fromHttpUrl("http://localhost:8080/api/ingredients/{id}")
+                .build(urlVariables);
+        return rest.getForObject(url, Ingredient.class);
+    }
 
-  public List<Ingredient> getAllIngredients() {
-    return rest.exchange("http://localhost:8080/api/ingredients",
-            HttpMethod.GET, null, new ParameterizedTypeReference<List<Ingredient>>() {})
-        .getBody();
-  }
+    /*
+     * Use getForEntity() instead of getForObject()
+     */
+    public Ingredient getIngredientById4(String ingredientId) {
+        ResponseEntity<Ingredient> responseEntity =
+                rest.getForEntity("http://localhost:8080/api/ingredients/{id}",
+                        Ingredient.class, ingredientId);
+        log.info("Fetched time: " +
+                responseEntity.getHeaders().getDate());
+        return responseEntity.getBody();
+    }
 
-  //
-  // PUT examples
-  //
+    public List<Ingredient> getAllIngredients() {
+        return rest.exchange("http://localhost:8080/api/ingredients",
+                        HttpMethod.GET, null, new ParameterizedTypeReference<List<Ingredient>>() {
+                        })
+                .getBody();
+    }
 
-  public void updateIngredient(Ingredient ingredient) {
-    rest.put("http://localhost:8080/api/ingredients/{id}",
-          ingredient, ingredient.getId());
-  }
+    //
+    // PUT examples
+    //
 
-  //
-  // POST examples
-  //
-  public Ingredient createIngredient(Ingredient ingredient) {
-    return rest.postForObject("http://localhost:8080/api/ingredients",
-        ingredient, Ingredient.class);
-  }
+    public void updateIngredient(Ingredient ingredient) {
+        rest.put("http://localhost:8080/api/ingredients/{id}",
+                ingredient, ingredient.getId());
+    }
 
-  public URI createIngredient2(Ingredient ingredient) {
-    return rest.postForLocation("http://localhost:8080/api/ingredients",
-        ingredient, Ingredient.class);
-  }
+    //
+    // POST examples
+    //
+    public Ingredient createIngredient(Ingredient ingredient) {
+        return rest.postForObject("http://localhost:8080/api/ingredients",
+                ingredient, Ingredient.class);
+    }
 
-  public Ingredient createIngredient3(Ingredient ingredient) {
-    ResponseEntity<Ingredient> responseEntity =
-           rest.postForEntity("http://localhost:8080/api/ingredients",
-                              ingredient,
-                              Ingredient.class);
-    log.info("New resource created at " +
-             responseEntity.getHeaders().getLocation());
-    return responseEntity.getBody();
-  }
+    public URI createIngredient2(Ingredient ingredient) {
+        return rest.postForLocation("http://localhost:8080/api/ingredients",
+                ingredient, Ingredient.class);
+    }
 
-  //
-  // DELETE examples
-  //
+    public Ingredient createIngredient3(Ingredient ingredient) {
+        ResponseEntity<Ingredient> responseEntity =
+                rest.postForEntity("http://localhost:8080/api/ingredients",
+                        ingredient,
+                        Ingredient.class);
+        log.info("New resource created at " +
+                responseEntity.getHeaders().getLocation());
+        return responseEntity.getBody();
+    }
 
-  public void deleteIngredient(Ingredient ingredient) {
-    rest.delete("http://localhost:8080/api/ingredients/{id}",
-        ingredient.getId());
-  }
+    //
+    // DELETE examples
+    //
+
+    public void deleteIngredient(Ingredient ingredient) {
+        rest.delete("http://localhost:8080/api/ingredients/{id}",
+                ingredient.getId());
+    }
 
 }

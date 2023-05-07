@@ -12,26 +12,26 @@ import tacos.TacoOrder;
 
 @Service
 public class RabbitOrderMessagingService
-       implements OrderMessagingService {
+        implements OrderMessagingService {
 
-  private RabbitTemplate rabbit;
+    private RabbitTemplate rabbit;
 
-  @Autowired
-  public RabbitOrderMessagingService(RabbitTemplate rabbit) {
-    this.rabbit = rabbit;
-  }
+    @Autowired
+    public RabbitOrderMessagingService(RabbitTemplate rabbit) {
+        this.rabbit = rabbit;
+    }
 
-  public void sendOrder(TacoOrder order) {
-    rabbit.convertAndSend("tacocloud.order.queue", order,
-        new MessagePostProcessor() {
-          @Override
-          public Message postProcessMessage(Message message)
-              throws AmqpException {
-            MessageProperties props = message.getMessageProperties();
-            props.setHeader("X_ORDER_SOURCE", "WEB");
-            return message;
-          }
-        });
-  }
-  
+    public void sendOrder(TacoOrder order) {
+        rabbit.convertAndSend("tacocloud.order.queue", order,
+                new MessagePostProcessor() {
+                    @Override
+                    public Message postProcessMessage(Message message)
+                            throws AmqpException {
+                        MessageProperties props = message.getMessageProperties();
+                        props.setHeader("X_ORDER_SOURCE", "WEB");
+                        return message;
+                    }
+                });
+    }
+
 }

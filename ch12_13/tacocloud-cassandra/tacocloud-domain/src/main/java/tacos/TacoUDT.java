@@ -9,8 +9,8 @@ import lombok.Data;
 @Data
 @UserDefinedType("taco")
 public class TacoUDT {
-  
-  private final String name;
-  private final List<IngredientUDT> ingredients;
-  
+
+    private final String name;
+    private final List<IngredientUDT> ingredients;
+
 }

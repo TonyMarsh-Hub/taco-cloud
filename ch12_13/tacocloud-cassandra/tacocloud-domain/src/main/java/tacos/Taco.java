@@ -24,23 +24,23 @@ import lombok.Data;
 @Table("tacos")
 public class Taco {
 
-  @PrimaryKeyColumn(type=PrimaryKeyType.PARTITIONED)
-  private UUID id = Uuids.timeBased();
-  
-  @NotNull
-  @Size(min = 5, message = "Name must be at least 5 characters long")
-  private String name;
-  
-  @PrimaryKeyColumn(type=PrimaryKeyType.CLUSTERED,
-                    ordering=Ordering.DESCENDING)
-  private Date createdAt = new Date();
-  
-  @Size(min=1, message="You must choose at least 1 ingredient")
-  @Column("ingredients")
-  private List<IngredientUDT> ingredients = new ArrayList<>();
-  
-  public void addIngredient(Ingredient ingredient) {
-      this.ingredients.add(new IngredientUDT(ingredient.getName(), ingredient.getType()));
-  }
+    @PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED)
+    private UUID id = Uuids.timeBased();
+
+    @NotNull
+    @Size(min = 5, message = "Name must be at least 5 characters long")
+    private String name;
+
+    @PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED,
+            ordering = Ordering.DESCENDING)
+    private Date createdAt = new Date();
+
+    @Size(min = 1, message = "You must choose at least 1 ingredient")
+    @Column("ingredients")
+    private List<IngredientUDT> ingredients = new ArrayList<>();
+
+    public void addIngredient(Ingredient ingredient) {
+        this.ingredients.add(new IngredientUDT(ingredient.getName(), ingredient.getType()));
+    }
 
 }

@@ -1,6 +1,7 @@
 package sia6;
 
 import java.io.File;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
@@ -18,46 +19,47 @@ import org.springframework.integration.transformer.GenericTransformer;
 @Configuration
 public class FileWriterIntegrationConfig {
 
-  @Profile("xmlconfig")
-  @Configuration
-  @ImportResource("classpath:/filewriter-config.xml")
-  public static class XmlConfiguration {}
+    @Profile("xmlconfig")
+    @Configuration
+    @ImportResource("classpath:/filewriter-config.xml")
+    public static class XmlConfiguration {
+    }
 
-  @Profile("javaconfig")
-  @Bean
-  @Transformer(inputChannel="textInChannel",                  <!--1-->
-               outputChannel="fileWriterChannel")
-  public GenericTransformer<String, String> upperCaseTransformer() {
-    return text -> text.toUpperCase();
-  }
+    @Profile("javaconfig")
+    @Bean
+    @Transformer(inputChannel = "textInChannel", <!--1-- >
+            outputChannel="fileWriterChannel")
+    public GenericTransformer<String, String> upperCaseTransformer() {
+        return text -> text.toUpperCase();
+    }
 
-  @Profile("javaconfig")
-  @Bean
-  @ServiceActivator(inputChannel="fileWriterChannel")
-  public FileWritingMessageHandler fileWriter() {             <!--2-->
-    FileWritingMessageHandler handler =
-        new FileWritingMessageHandler(new File("/tmp/sia6/files"));
-    handler.setExpectReply(false);
-    handler.setFileExistsMode(FileExistsMode.APPEND);
-    handler.setAppendNewLine(true);
-    return handler;
-  }
+    @Profile("javaconfig")
+    @Bean
+    @ServiceActivator(inputChannel = "fileWriterChannel")
+    public FileWritingMessageHandler fileWriter() {             <!--2-- >
+            FileWritingMessageHandler handler =
+            new FileWritingMessageHandler(new File("/tmp/sia6/files"));
+        handler.setExpectReply(false);
+        handler.setFileExistsMode(FileExistsMode.APPEND);
+        handler.setAppendNewLine(true);
+        return handler;
+    }
 
-  //
-  // DSL Configuration
-  //
-  @Profile("javadsl")
-  @Bean
-  public IntegrationFlow fileWriterFlow() {
-    return IntegrationFlows
-        .from(MessageChannels.direct("textInChannel"))         // <1>
-        .<String, String>transform(t -> t.toUpperCase())       // <2>
-        .handle(Files                                          // <3>
-            .outboundAdapter(new File("/tmp/sia6/files"))
-            .fileExistsMode(FileExistsMode.APPEND)
-            .appendNewLine(true))
-        .get();
-  }
+    //
+    // DSL Configuration
+    //
+    @Profile("javadsl")
+    @Bean
+    public IntegrationFlow fileWriterFlow() {
+        return IntegrationFlows
+                .from(MessageChannels.direct("textInChannel"))         // <1>
+                .<String, String>transform(t -> t.toUpperCase())       // <2>
+                .handle(Files                                          // <3>
+                        .outboundAdapter(new File("/tmp/sia6/files"))
+                        .fileExistsMode(FileExistsMode.APPEND)
+                        .appendNewLine(true))
+                .get();
+    }
 
   /*
   @Bean

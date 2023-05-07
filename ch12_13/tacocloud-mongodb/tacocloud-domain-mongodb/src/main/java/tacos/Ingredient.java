@@ -10,17 +10,17 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor(access=AccessLevel.PRIVATE, force=true)
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @Document
 public class Ingredient {
 
-  @Id
-  private String id;
-  private String name;
-  private Type type;
+    @Id
+    private String id;
+    private String name;
+    private Type type;
 
-  public enum Type {
-    WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE
-  }
+    public enum Type {
+        WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE
+    }
 
 }

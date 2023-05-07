@@ -9,11 +9,11 @@ import lombok.Data;
 @AllArgsConstructor
 public class Alert {
 
-	private Level level;
-	private String orderedBy;
-	private Instant orderedAt;
+    private Level level;
+    private String orderedBy;
+    private Instant orderedAt;
 
-	public enum Level {
-		YELLOW, ORANGE, RED, BLACK
-	}
+    public enum Level {
+        YELLOW, ORANGE, RED, BLACK
+    }
 }

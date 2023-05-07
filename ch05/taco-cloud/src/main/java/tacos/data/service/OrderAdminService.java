@@ -8,15 +8,15 @@ import tacos.data.OrderRepository;
 @Service
 public class OrderAdminService {
 
-  private OrderRepository orderRepository;
+    private OrderRepository orderRepository;
 
-  public OrderAdminService(OrderRepository orderRepository) {
-    this.orderRepository = orderRepository;
-  }
+    public OrderAdminService(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
 
-  @PreAuthorize("hasRole('ADMIN')")
-  public void deleteAllOrders() {
-    orderRepository.deleteAll();
-  }
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteAllOrders() {
+        orderRepository.deleteAll();
+    }
 
 }

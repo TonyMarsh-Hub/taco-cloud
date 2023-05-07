@@ -7,19 +7,19 @@ import tacos.TacoOrder;
 
 @Service
 public class KafkaOrderMessagingService
-                                  implements OrderMessagingService {
-  
-  private KafkaTemplate<String, TacoOrder> kafkaTemplate;
-  
-  @Autowired
-  public KafkaOrderMessagingService(
-          KafkaTemplate<String, TacoOrder> kafkaTemplate) {
-    this.kafkaTemplate = kafkaTemplate;
-  }
-  
-  @Override
-  public void sendOrder(TacoOrder order) {
-    kafkaTemplate.send("tacocloud.orders.topic", order);
-  }
-  
+        implements OrderMessagingService {
+
+    private KafkaTemplate<String, TacoOrder> kafkaTemplate;
+
+    @Autowired
+    public KafkaOrderMessagingService(
+            KafkaTemplate<String, TacoOrder> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
+
+    @Override
+    public void sendOrder(TacoOrder order) {
+        kafkaTemplate.send("tacocloud.orders.topic", order);
+    }
+
 }

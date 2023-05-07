@@ -13,16 +13,16 @@ import lombok.RequiredArgsConstructor;
 @EqualsAndHashCode(exclude = "id")
 public class Ingredient {
 
-  @Id
-  private Long id;
+    @Id
+    private Long id;
 
-  private @NonNull String slug;
+    private @NonNull String slug;
 
-  private @NonNull String name;
-  private @NonNull Type type;
+    private @NonNull String name;
+    private @NonNull Type type;
 
-  public enum Type {
-    WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE
-  }
+    public enum Type {
+        WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE
+    }
 
 }

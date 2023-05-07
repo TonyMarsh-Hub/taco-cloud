@@ -13,35 +13,35 @@ import lombok.Data;
 @Data
 @Document
 public class TacoOrder implements Serializable {
-  private static final long serialVersionUID = 1L;
-  
-  @Id
-  private String id;
-  private Date placedAt = new Date();
-  
-  private User user;
+    private static final long serialVersionUID = 1L;
 
-  private String deliveryName;
+    @Id
+    private String id;
+    private Date placedAt = new Date();
 
-  private String deliveryStreet;
+    private User user;
 
-  private String deliveryCity;
+    private String deliveryName;
 
-  private String deliveryState;
+    private String deliveryStreet;
 
-  private String deliveryZip;
+    private String deliveryCity;
 
-  private String ccNumber;
+    private String deliveryState;
 
-  private String ccExpiration;
+    private String deliveryZip;
 
-  private String ccCVV;
+    private String ccNumber;
+
+    private String ccExpiration;
+
+    private String ccCVV;
 
 
-  private List<Taco> tacos = new ArrayList<>();
-  
-  public void addTaco(Taco taco) {
-    this.tacos.add(taco);
-}
+    private List<Taco> tacos = new ArrayList<>();
+
+    public void addTaco(Taco taco) {
+        this.tacos.add(taco);
+    }
 
 }
