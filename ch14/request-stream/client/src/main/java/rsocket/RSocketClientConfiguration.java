@@ -15,7 +15,7 @@ public class RSocketClientConfiguration {
         return args -> {
             String stockSymbol = "XYZ";
 
-            RSocketRequester tcp = requesterBuilder.tcp("localhost", 7000);
+            RSocketRequester tcp = requesterBuilder.tcp("localhost", 7777);
             tcp
                     .route("stock/{symbol}", stockSymbol)
                     .retrieveFlux(StockQuote.class)

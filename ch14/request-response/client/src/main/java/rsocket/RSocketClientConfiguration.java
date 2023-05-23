@@ -13,7 +13,7 @@ public class RSocketClientConfiguration {
     @Bean
     public ApplicationRunner sender(RSocketRequester.Builder requesterBuilder) {
         return args -> {
-            RSocketRequester tcp = requesterBuilder.tcp("localhost", 7000);
+            RSocketRequester tcp = requesterBuilder.tcp("localhost", 7777);
 
             // ... send messages with RSocketRequester ...
             tcp
